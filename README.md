@@ -3,7 +3,8 @@ mlp.js
 This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.  
 
 ## Usage
-Demo and detailed usage are introduced on the web site.  
+Demo and detailed usage are introduced on the Github Page.
+[VISIT DEMO SITE]()
 
 ## Requirement
 The browser supports Javascript (ECMAScript 2015) and Custom Element.
