@@ -1,0 +1,70 @@
+<flex-module id='square'>
+    @css=
+        vertical-align:middle;
+        text-align:center;
+        margin-top:3rem;
+        margin-left:2rem;
+        background:deeppink;
+        transform: rotate(0deg);
+        -webkit-transition:.5s;
+        transition:.5s;
+        opacity:1;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:30vw;
+        height:30vw;
+        font-size:3vw;
+        line-height:30vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:20vw;
+        height:20vw;
+        font-size:2vw;
+        line-height:20vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:10rem;
+        height:10rem;
+        font-size:1rem;
+        line-height:10rem;
+    @cssHover=
+        box-shadow: 0 1rem 1rem rgb(200,200,200) !important;
+    @cssBefore=
+        content: 'Swipe Me ';
+    @keyframes squareAnimation=
+        from {
+            opacity:0;
+            margin-top:1rem;
+            -webkit-transform: rotate(0deg);
+            -o-transform: rotate(0deg);
+            transform: rotate(0deg);
+            background:turquoise;
+        }
+        to {
+            opacity:1;
+            margin-top:3rem;
+            -webkit-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+            background:deeppink;
+        }
+    @show=
+        $(THIS).css({'animation':'squareAnimation 0.8s linear normal forwards'});
+    @swipe right=
+        $(THIS).css({'transform':'rotateY(720deg)','background':'yellow'});
+        $(THIS).text('Left!');
+    @swipe left=
+        $(THIS).css({'transform':'rotateY(-720deg)','background':'royalblue'});
+        $(THIS).text('Right!');
+    @onload=
+        $(THIS).text('Right!');
+    @square_show=
+        $(THIS).show();
+        setTimeout(()=>{
+            $(THIS).css({'animation':'none'});
+        },1000);
+    @square_hide=
+        $(THIS).css({'animation':'squareAnimation '+ #ARG0 +'s linear reverse forwards'});
+        setTimeout(()=>{
+            $(THIS).css({'animation':'none'});
+            $(THIS).hide();
+        }, #ARG0*1000 );
+    </flex-module>
+    

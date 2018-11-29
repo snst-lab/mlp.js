@@ -1,0 +1,5 @@
+[
+    {"name":"apple","color":"red","price":"300"},
+    {"name":"tangerine","color":"orange","price":"200"},
+    {"name":"banana","color":"yellow","price":"100"}
+]

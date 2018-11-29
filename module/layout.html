@@ -1,0 +1,232 @@
+<template id='header'>
+    <div use='header'>
+        <div flex='@click=$("html,body").animate({scrollTop:0}, 300, "swing");'>
+            <img src='img/melonpan-color.png' style='position:fixed;width:3rem;height:3rem;top:0.3rem;left:4rem;'/>
+            <div style='position:fixed;left:7.5rem;color:rgb(80,80,80)'>mlp.js</div>
+        </div>
+    </div>
+</template>
+<flex-module id='header'>
+    @css=
+        position:fixed;        
+        display:flex;
+        margin: 0 auto;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        width:100%;
+        height:3.5rem;
+        line-height:3.5rem;
+        z-index:3;
+        background:rgb(255,255,255);
+        border-bottom : solid 0.1px rgb(230,230,230);
+        -webkit-transition:.3s;
+        transition:.3s;
+</flex-module>
+
+<flex-module id='footer'>
+    @css=
+        margin:0;
+        background:rgb(50,50,50);
+        height:3rem;
+        line-height:3rem;
+        width:100%;
+        color:white;
+        font-size:0.9rem;
+        text-align:center;
+        vertical-align:middle;
+</flex-module>
+
+<flex-module id='bodyDesktop'>
+    @css=
+        position:relative;
+        top:3.5rem;
+        left:0;
+        background:rgb(245,245,245);
+    @media screen and (max-aspect-ratio:11/16) =
+        width:100vw;
+        left:0;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:100vw;
+        left:0;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:70vw;
+        left:25vw;
+</flex-module>
+
+
+<flex-module id="sideMenu">
+    @css=
+        position:fixed;
+        top:3.5rem;
+        height:100vh;
+        background:rgb(30,30,30);
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+        z-index:3;
+        -webkit-transition:.3s;
+        transition:.3s;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:70vw;
+        left:-70vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:70vw;
+        left:-70vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:23vw;
+        left:0;
+    @sideMenu_open=
+        hamburger_active();
+        drawerOverlay_show();
+        $(THIS).css({'left':'0vw'});
+    @sideMenu_close=
+        hamburger_deactive();
+        drawerOverlay_hide();
+        if(!DESKTOP){
+            $(THIS).css({'left':'-80vw'});
+        }
+</flex-module>
+<flex-module id="drawerOverlay">
+    @css=
+        position:fixed;
+        z-index:-1;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:transparent
+        -webkit-transition:.3s;
+        transition:.3s;
+    @click=
+        sideMenu_close();
+    @drawerOverlay_show=
+        $(THIS).css({'background':'rgba(0,0,0,0.3)','z-index':'2'}); 
+    @drawerOverlay_hide=
+        $(THIS).css({'background':'transparent','z-index':'-1'}); 
+</flex-module>
+
+<template id='menuIndex'>
+    <div use='menuIndex'>
+        <div>#CONTENT</div>
+        <div use='plusminus'>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</template>
+<flex-module id='menuIndex'>
+    @css=
+        width:100%;
+        height:3rem;
+        line-height:3rem;
+        vertical-align:middle;
+        font-size:0.9em;
+        text-indent:2em;
+        border-top:solid rgb(80,80,80) 0.05px;
+        color:white;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-transition:.3s;
+        transition:.3s;
+    @cssHover=
+        background:rgb(0,200,200);
+    @switch=
+        #1: $('.menuSub[sub='+$(THIS).parent().attr('sub')+']').css({'height':'2.5rem','font-size':'0.9em'});
+            $(THIS +'> img').css({'transform':'rotate(90deg)'});
+            plusminus_active(THIS);
+        #2: $('.menuSub[sub='+$(THIS).parent().attr('sub')+']').css({'height':'0','font-size':'0'});
+            $(THIS +'> img').css({'transform':'rotate(0deg)'});
+            plusminus_deactive(THIS);
+</flex-module>
+<flex-module id='menuSubArrow'>
+    @css=
+        position:absolute;
+        margin:-2.7rem 0 0 22vw;
+        -webkit-transition:.3s;
+        transition:.3s;
+</flex-module>
+
+<flex-module id='menuSub'>
+    @css=
+        width:100%;
+        height:0;
+        font-size:0;
+        line-height:2.5rem;
+        vertical-align:middle;
+        text-indent:3em;
+        background:rgb(40,40,40);
+        border-bottom:solid rgb(30,30,30) 0.05px;
+        color:rgb(240,240,240);
+        text-overflow: ellipsis;
+        -webkit-transition:.3s;
+        transition:.3s;
+    @cssHover=
+        background:rgb(0,220,220);
+    @click=
+        const position = $('.h2_block_text:contains('+$(THIS).text()+')').get(0).offsetTop-70;
+        $('html,body').animate({scrollTop:position}, 300, 'swing');
+</flex-module>
+
+<flex-module id='plusminus'>
+    @plusminus_active=
+        $(#ARG0+'>'+THIS).addClass('active');
+    @plusminus_deactive=
+        $(#ARG0+'>'+THIS).removeClass('active');
+</flex-module>
+<style>
+@media screen and (max-aspect-ratio:11/16) {
+    .plusminus {
+        margin-left:60vw;
+    }
+}
+@media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16){
+    .plusminus {
+        margin-left:60vw;
+    }
+}
+@media screen and (min-aspect-ratio:13/16){
+    .plusminus {
+        margin-left:20vw;
+    }
+}
+.plusminus {
+    position: fixed;
+    margin-top:-1.5rem;
+    width: 1rem;
+    height: 1rem;
+}
+.plusminus,
+.plusminus span {
+    display: inline-block;
+    transition: all .4s;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index:5;
+}
+.plusminus span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 0.1rem;
+    background-color: rgb(200,200,200);
+    border-radius: 0.1rem;
+}
+.plusminus span:nth-of-type(1) {
+    top: 0;
+}
+.plusminus span:nth-of-type(2) {
+    -webkit-transform: translateY(0.5rem) rotate(90deg);
+    transform: translateY(0.5rem) rotate(90deg);
+    top: -0.5rem;
+}
+.plusminus.active span:nth-of-type(1) {
+    opacity: 0;
+}
+.plusminus.active span:nth-of-type(2) {
+    -webkit-transform: translateY(0.5rem) rotate(180deg);
+    transform: translateY(0.5rem) rotate(180deg);
+}
+</style>
+
+

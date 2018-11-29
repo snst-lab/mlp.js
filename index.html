@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mlp.js</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <import-file>module/header.html</import-file>
+</head>
+<body style='display:none'>
+<div clone='header'></div>
+<div style='display:flex'>
+    <div use='sideMenu'>
+        <div clone='menuIndex' sub='0'>Introduction</div>
+        <div use='menuSub' sub='0'>Features</div>
+        <div use='menuSub' sub='0'>Community</div>
+        <div clone='menuIndex' sub='1'>Custom Elements</div>
+        <div use='menuSub' sub='1'>&lt;flex-module&gt;</div>
+        <div use='menuSub' sub='1'>&lt;import-file&gt;</div>
+        <div use='menuSub' sub='1'>&lt;pre-loader&gt;</div>
+        <div clone='menuIndex' sub='2'>General Attributes</div>
+        <div use='menuSub' sub='2'>clone</div>
+        <div use='menuSub' sub='2'>replace</div>
+        <div use='menuSub' sub='2'>for</div>
+        <div use='menuSub' sub='2'>wait</div>
+        <div use='menuSub' sub='2'>interval</div>
+        <div use='menuSub' sub='2'>on </div>
+        <div use='menuSub' sub='2'>flex</div>
+        <div use='menuSub' sub='2'>use</div>
+        <div use='menuSub' sub='2'>screen</div>
+        <div clone='menuIndex' sub='3'>Operator</div>
+        <div use='menuSub' sub='3'>Double Brace</div>
+        <div clone='menuIndex' sub='4'>Member functions</div>
+        <div use='menuSub' sub='4'>mlp.on</div>
+        <div use='menuSub' sub='4'>mlp.loader</div>
+        <div clone='menuIndex' sub='5'>Getting Started</div>
+        <div use='menuSub' sub='5'>Installation</div>
+        <div use='menuSub' sub='5'>Configure</div>
+        <div clone='menuIndex' sub='6'>About</div>
+        <div use='menuSub' sub='6'>Developer</div>
+    </div>
+    <div use="drawerOverlay"></div>
+    <img use='toPageTop' src='img/to-page-top.png'/>
+    <div clone='hamburger' screen='MOBILE'></div>
+    <div use='bodyDesktop'>
+        <div clone='textEffect' replace='SUBTITLE=>A flexible Markup Language Parser with javascript'>mlp.js</div>
+        <div use='spaceHorizontal'></div>
+        <div use='h2' flex="@inview=$('.toPageTop').fadeOut('slow');@outview=$('.toPageTop').fadeIn('slow');">Introduction</div>
+        <div use='text'>
+            This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.
+        </div>
+        <div clone='h2_block'>Features</div>
+        <div use='spaceHorizontal'></div>
+        <div style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
+            <div clone='feature' replace='TITLE=>Modularity | IMAGE=>modularity.png'>You can modularize html,css,and javascript codes.</div>
+            <div clone='feature' replace='TITLE=>Scalability | IMAGE=>scalability.png'>Code splitting and modularization make your web development highly scalable.</div>
+            <div clone='feature' replace='TITLE=>Immediacy | IMAGE=>immediacy.png'>This library parses html at runtime. You do not need to transpile the code.</div>
+            <div clone='feature' replace='TITLE=>Easy Installation | IMAGE=>setup.png'>You can use it by reading only one js file. There is no dependency library.</div>
+        </div>
+        <div clone='h2_block'>Community</div>
+        <div use='text'>
+            Mlp.js is a public beta. If you like, join the community and cooperate in improving the source.
+        </div>
+        <div style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
+            <div clone='link' replace='TITLE=>Github | URL=>https://discord.gg/ZJPmDjx | IMAGE=>github-pink.png'>Mlp.js is provided with the LGPL license. Please commit, pull or clone as necessary.</div>
+            <div clone='link' replace='TITLE=>Discord | URL=>https://discord.gg/ZJPmDjx | IMAGE=>discord.png'>Please obtain the invitation code from the icon above and join our Discord.</div>
+        </div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='h2'>Custom Elements</div>
+        <div use='text'>Mlp.js provides several custom elements. It is useful for registration of styles or events to dom, code splitting  or calling preloader, etc.</div>
+       
+        <div clone='h2_block'>&lt;flex-module&gt;</div>
+        <div use='text'>
+            "Flex-module" is a custom tag that applies style and register events to dom. At loading, the content of this tag automatically deleted after it is expanded into a tag with "use" attribute.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame' style='padding:0 0 2rem 0;'>
+            <import-file>module/code/custom_element/flex-module/prepare.html</import-file>
+            <import-file>module/code/custom_element/flex-module/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML(Preparation) [using jQuery]</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/flex-module/prepare.html</import-file></div>
+        <div use='h3'>HTML [using jQuery]</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/flex-module/usage.html</import-file></div>
+        
+        <div use='h3'>Attributes</div>
+        <table class="tbl">
+            <tr><th>Attribute</th><th>Description</th><th>Possible value</th></tr>
+            <tr><th>id</th><td>Id specified by "use" attribute</td><td>Any string</td></tr>
+        </table>
+     
+        <div use='h3'>Keys for CSS</div>
+        <table class="tbl">
+            <tr><th>Key</th><th>Description</th><th>CSS notation</th></tr>
+            <tr><th>@css</th><td>This key applies CSS to elements using flex-module.</td><td>selector{ ... }</td></tr>
+            <tr><th>@cssHover</th><td>This key applies CSS hover to elements using flex-module.</td><td>selector:hover{ ... }</td></tr>
+            <tr><th>@cssFocus</th><td>This key applies CSS focus to elements using flex-module.</td><td>selector:focus{ ... }</td></tr>
+            <tr><th>@cssBefore</th><td>This key applies CSS before to elements using flex-module.</td><td>selector::before{ ... }</td></tr>
+            <tr><th>@cssAfter</th><td>This key applies CSS after to elements using flex-module.</td><td>selector::after{ ... }</td></tr>
+            <tr><th>@media xxx</th><td>This key applies media query to elements using flex-module.</td><td>@media xxx {selector{ ... }}</td></tr>
+            <tr><th>@keyframes xxx</th><td>This key defines CSS animation.</td><td>@keyframes xxx { ... }</td></tr>
+        </table>
+        <div use='h3'>Keys for Javascript</div>
+        <table class="tbl">
+            <tr><th>Key</th><th>Description</th><th>Javascript notation</th></tr>
+            <tr><th>@onload</th><td>This key specifies the processing to be executed when loading dom contents is completed.</td><td>document.addEventListener('DOMContentLoaded',function(){ ... },false);</td></tr>
+            <tr><th>@switch</th><td>Each time you click on elements using flex-module, the process specified by #1:,#2:,.. is executed in order.</td><td> - </td></tr>
+            <tr><th>@hold [time]</th><td>This key specifies the processing to be executed consecutively while holding down elements using flex-module.</td><td> - </td></tr>
+            <tr><th>@swipe [top|right|bottom|left]</th><td>This key specifies the processing to be executed when swiping elements using flex-module.</td><td> - </td></tr>
+            <tr><th>@inview [threshold]</th><td>This key specifies the processing to be executed when elements using flex-module enters the screen.</td><td> - </td></tr>
+            <tr><th>@outview [threshold]</th><td>This key specifies the processing to be executed when elements using flex-module exits the screen.</td><td> - </td></tr>
+            <tr><th>@interval [time]</th><td>This key specifies the processing to be executed periodically for elements using flex-module.</td><td> setInterval(function(){ ... }, [time]);</td></tr>
+            <tr><th>@[Event Name]</th><td>This key specifies an event listener for the elements using flex-module. click, mousedown, scroll, keyup, ... etc. Events can be enabled by specifying them in the configuration file "mlp.json".</td><td>DOM.addEventListener('[Event Name]',function(){ ... });</td></tr>
+            <tr><th>@[Flex ID]_[Method Name]</th><td>Any name following the flex id and underscore will be recognized as a custom method in grobal scope. The 1st,2nd,.. arguments of the custom method can be specified by the "#ARG0","#ARG1",.. notation in the value.</td><td>window.[Flex ID]_[Method Name] = function(){ ... };</td></tr>
+        </table>
+        <div use='text'>In the value of the key for javascript above, the CSS selector of its own element can be specified by "THIS" notation.</div>
+        <div use='h3'>Keys for HTML</div>
+        <table class="tbl">
+            <tr><th>Key</th><th>Description</th><th>HTML notation</th></tr>
+            <tr><th>@class</th><td>This key add HTML class to elements using flex-module.</td><td>&lt;tagname class='...'&gt; &lt;/tagname&gt;</td></tr>
+            <tr><th>@text</th><td>This key set text content to elements using flex-module.</td><td>&lt;tagname&gt; ... &lt;/tagname&gt;</td></tr>
+            <tr><th>@script</th><td>This key generates script tag includes this value.(One flex id generates only one script tag.)</td><td>&lt;script&gt; ... &lt;/script&gt;</td></tr>
+        </table>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>&lt;import-file&gt;</div>
+        <div use='text'>
+            "Import-file" is a custom tag that loads the contents of the file in the path specified by its own text content. With code splitting, you can do scalable developments. It is also useful for assigning large json or long strings to variables.
+        </div>
+        <div use='h3'>Example1</div>
+        <div style='margin-left:2rem;height:15rem;'>
+            <import-file>module/code/custom_element/import-file/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML file (document.html)</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/import-file/document.html</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/import-file/usage.html</import-file></div>
+        
+        <div use='borderHorizontal'></div>
+        
+        <div use='h3'>Example2</div>
+        <div use='frame' style='height:5rem;padding:0.8rem;color:black;font-family:"arial"'>
+            <import-file>module/code/custom_element/import-file/usage2.html</import-file>
+        </div>
+        <div use='h3'>JSON file (object.json)</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/import-file/object.json</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/import-file/usage2.html</import-file></div>
+        
+        <div use='h3'>Attributes</div>
+        <table class="tbl">
+            <tr><th>Attribute</th><th>Description</th><th>Possible value</th></tr>
+            <tr><th>var</th><td>This attribute assigns the contents of the file to a global variable with the name of its own value.</td><td>Any name of global variables</td></tr>
+            <tr><th>as</th><td>The contents of the file are read in the format specified by this attribute. For example, if you load an html source as string format, it will be parsed into a format that can be displayed on a web page.</td><td>string | json</td></tr>
+            <tr><th>async</th><td>When this attribute is specified, the file is read asynchronously. When assigning a value to a variable using this attribute, it is recommended to use the value of the variable by the "wait" attribute.</td><td>none</td></tr>
+        </table>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>&lt;pre-loader&gt;</div>
+        <div use='text'>
+            "Preloader-tag" makes it easy to set up preloader in your web application.This tag generates preloaders from HTML, JPEG, GIF, Motion GIF, PNG, or APNG files in the path specified by the text content. You can call the preloader at any time, not just when loading the page.
+        </div>
+        <div use='h3'>Example1</div>
+        <div use='frame'>
+            <import-file>module/code/custom_element/pre-loader/usage1.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/pre-loader/usage1.html</import-file></div>
+        <div use='h3'>HTML file (melonpan.html)</div>
+        <div clone='html'><import-file as='string'>module/loader/melonpan.html</import-file></div>
+        
+        <div use='borderHorizontal'></div>
+        
+        <div use='h3'>Example2</div>
+        <div use='frame'>
+            <import-file>module/code/custom_element/pre-loader/usage2.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/custom_element/pre-loader/usage2.html</import-file></div>
+        
+        <div use='h3'>Attributes</div>
+        <table class="tbl">
+            <tr><th>Attribute</th><th>Description</th><th>Possible value</th></tr>
+            <tr><th>id</th><td>The attribute specified the preloader ID. You can call the preloader with "mlp.loader ('preLoaderId')";
+                    If you do not specify an attribute or specify "onload" as an attribute, the preloader will be called during page loading.</td><td>onload | Any String</td></tr>
+            <tr><th>fadein</th><td>This attribute specifies the preloader's fade-in time. The default value is 0.</td><td>Natural number</td></tr>
+            <tr><th>timeout</th><td>This attribute specifies the length of time the preloader is displayed.. The default value is 2000.</td><td>Natural number</td></tr>
+            <tr><th>fadeout</th><td>This attribute specifies the preloader's fade-out time. The default value is 200.</td><td>Natural number</td></tr>
+            <tr><th>background</th><td>This attribute specifies the background color of the preloader. The default value is 'white'.</td><td>CSS color syntax</td></tr>
+        </table>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='h2'>General Attributes</div>
+        <div use='text'>
+            Mlp.js provides useful html attributes. They can be used for DIV, SPAN, and other existing html tags, and will strongly support your web development.
+        </div>
+        <div use='h3'>HTML(Preparation)</div>
+        <div clone='html'><import-file as='string'>module/star.html</import-file></div>
+        <div use='text'>
+            As an example, we prepared a template includes a star-shaped SVG. Let's process this variously.
+        </div>
+        <div clone='h2_block'>clone</div>
+        <div use='text'>
+            This attribute clones the dom defined by the template tag.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/clone/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/clone/usage.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>replace</div>
+        <div use='text'>
+            This attribute replaces the string in the innerHTML of the tag.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/replace/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/replace/usage.html</import-file></div>
+        
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>for</div>
+        <div use='text'>
+            This attribute duplicates DOM based on data given by an javascript Array or CSV.
+        </div>
+        <div use='h3'>Example1</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/for/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/for/usage.html</import-file></div>
+        <div use='borderHorizontal'></div>
+        <div use='h3'>Example2</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/for/usage2.html</import-file>
+            <script>
+                var array = ['orange','purple','yellow'];
+            </script>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/for/usage2.html</import-file></div>
+        <div use='borderHorizontal'></div>
+        <div use='h3'>Example3</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/for/usage3.html</import-file>
+            <script>
+                var objArray = [{'color':'magenta','scale':'1.0'},{'color':'navy','scale':'0.8'},{'color':'turquoise','scale':'0.6'}];
+            </script>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/for/usage3.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>wait</div>
+        <div use='text'>
+            In many cases, values are not assigned to javascript variables or arrays when generating HTML documents. This attribute monitors variables and arrays and defer the generation of DOM until values are assigned.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/wait/usage.html</import-file>
+            <script>
+                setTimeout(function(){
+                    window.arrayDelay = ['hotpink','royalblue','teal'];
+                },3000);
+            </script>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/wait/usage.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>interval</div>
+        <div use='text'>
+            The DOM with this attribute repeats regeneration at specified intervals.
+        </div>
+        <div use='h3'>Example1</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/interval/usage.html</import-file>
+            <import-file>module/code/attribute/interval/prepare.html</import-file>
+        </div>
+        <div use='h3'>HTML(Preparation)</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/interval/prepare.html</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/interval/usage.html</import-file></div>
+       
+        <div use='borderHorizontal'></div>
+
+        <div use='h3'>Example2</div>
+        <div use='frame' style='height:12rem;padding:1rem;'>
+            <import-file>module/code/attribute/interval/usage2.html</import-file>
+            <import-file>module/code/attribute/interval/prepare2.html</import-file>
+        </div>
+        <div use='h3'>HTML(Preparation) [using jQuery]</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/interval/prepare2.html</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/interval/usage2.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>on </div>
+        <div use='text'>
+            The DOM with this attribute triggers the specified event. You can trigger an event with the "mlp.on (eventName)" method.
+        </div>
+        <import-file>module/code/attribute/on/prepare.html</import-file>
+        <div use='h3'>Example1</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/on/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/on/usage.html</import-file></div>
+
+        <div use='borderHorizontal'></div>
+
+        <div use='h3'>Example2</div>
+        <div use='frame'>
+            <import-file>module/code/attribute/on/usage2.html</import-file>
+            <script>
+                var arrayTrigger = ['hotpink','royalblue','teal'];
+            </script>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/on/usage2.html</import-file></div>
+      
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>flex</div>
+        <div use='text'>
+            This attribute associates various styles and functions such as CSS and javascript events to DOM. The syntax is the same as what you can specify with textContent in &lt;flex-module&gt;.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame' style='height:15rem;'>
+            <import-file>module/code/attribute/flex/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML [using jQuery]</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/flex/usage.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>use</div>
+        <div use='text'>
+            If you specify the id of &lt;flex-module&gt; with this attribute, that style and function will be applied to DOM.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame' style='height:15rem;'>
+            <import-file>module/code/attribute/use/prepare.html</import-file>
+            <import-file>module/code/attribute/use/usage.html</import-file>
+        </div>
+        <div use='h3'>HTML(Preparation) [using jQuery]</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/use/prepare.html</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/use/usage.html</import-file></div>
+ 
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div clone='h2_block'>screen</div>
+        <div use='text'>
+            Write the screen definition to the value of "screen" in the setting file mlp.json. The screen definition is written in javascript syntax which is interpreted as a bool value.     
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame' style='font-size:2rem;padding:1rem;box-sizing:border-box;'>
+            <import-file>module/code/attribute/screen/usage.html</import-file>
+        </div>
+        <div use='h3'>mlp.json (setting file)</div>
+        <div clone='javascript'><import-file as='string'>mlp.json</import-file></div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/attribute/screen/usage.html</import-file></div>
+
+        <div use='text'>The notation changes depending on the aspect ratio of the screen.</div>
+       
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+        <div use='h2'>Operator</div>
+        <div clone='h2_block'>Double Brace {{ ... }}</div>
+        <div use='text'>
+            The character string enclosed in double braces is evaluated as javascript.To use double braces, you need to specify for, wait, on, or interval attributes. If "on='load'" is specified, the script is evaluated at page load time.
+        </div>
+        <div use='h3'>Example</div>
+        <div use='frame' style='padding:2rem;font-size:2em;font-Family:"Roboto";'>
+            <import-file>module/code/operator/double_brace.html</import-file>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/operator/double_brace.html</import-file></div>
+        
+        <div use='borderHorizontal'></div>
+        
+        <div use='h3'>Example2</div>
+        <div use='frame' style='padding:2rem;font-size:2em;font-Family:"Roboto";'>
+            <div wait='fruits'>I eat {{ fruits[0] }} , {{ fruits[1] }} and {{ fruits[2]}} .</div>
+            <script>
+                setTimeout(function(){
+                    window.fruits = ['apple','orange','banana'];
+                },2000);
+            </script>
+        </div>
+        <div use='h3'>HTML</div>
+        <div clone='html'><import-file as='string'>module/code/operator/double_brace2.html</import-file></div>
+        
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='h2'>Member Functions</div>
+
+        <div clone='h2_block'>mlp.on (String triggerEvent)</div>
+        <div use='text'>
+            "Mlp.on ()" is a function that triggers a javascript event. The first argument contains a character string indicating an arbitrary event name. Use it together with the "on" attribute. This is synonymous with "document.trigger ()" in jQuery.
+        </div>
+        <div use='h3'>Definition</div>
+        <div clone='javascript'><import-file as='string'>module/code/member_functions/mlp.on</import-file></div>
+
+        <div use='borderHorizontal'></div>
+        
+        <div clone='h2_block'>mlp.loader (String preLoaderId)</div>
+        <div use='text'>
+            "Mlp.loader ()" is a function that calls preloader. The first argument contains the preLoader ID.
+        </div>
+        <div use='h3'>Definition</div>
+        <div clone='javascript'><import-file as='string'>module/code/member_functions/mlp.loader</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='h2'>Getting Started</div>
+        <div clone='h2_block'>Installation</div>
+        <div use='text'>
+            You can use mlp.js by reading js file. There is no dependency library.
+        </div>
+        <div use='h3'>CDN</div>
+        <div clone='html'><import-file as='string'>module/code/getting_started/installation.html</import-file></div>
+        <div use='borderHorizontal'></div>
+        <div clone='h2_block'>Configure</div>
+        <div use='h3'>mlp.json</div>
+        <div use='text'>
+            You can customize the settings by editing "mlp.json". "Mlp.json" should be placed in the same directory as html file which read "mlp.js" such as "index.html".
+        </div>
+        <div clone='javascript'><import-file as='string'>mlp.json</import-file></div>
+        <table class="tbl">
+            <tr><th>Property</th><th>Value</th></tr>
+            <tr><th>dom</th><td>Specify the tag type to be parsed by mlp.js with csv.</td></tr>
+            <tr><th>event</th><td>Specify javascript events that can be specified as keys of flex-module with csv.</td></tr>
+            <tr><th>screen</th><td>Specify the value that can be registered in the "screen" attribute by javascript conditional expression.</td></tr>
+            <tr><th>cookie</th><td>If this value is set to "enabled", cookies are not automatically deleted when loading the page or ajax request. The default value is 'disabled'.</td></tr>
+        </table>
+        <div clone='warning'>
+            If "cookie" property is set to "enabled", the risk of XSS increases. Please also take necessary security measures on the server side.
+        </div>
+        <div use='borderHorizontal'></div>
+        <div use='h3'>How to write HTML</div>
+        <div use='text'>
+            We recommend "style='display:none;'" on the body tag to prevent display of source at startup.
+        </div>
+        <div clone='html'><import-file as='string'>module/code/getting_started/document.html</import-file></div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='borderHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='h2'>About</div>
+        <div clone='h2_block'>Developer</div>
+        <div clone='profile' replace='PHOTO=>img/sheep-black.jpg'>TANUSUKE</div>
+
+        <div use='spaceHorizontal'></div>
+        <div use='spaceHorizontal'></div>
+
+        <div use='footer'>Copyright &copy; 2018 TANUSUKE</div>
+    </div>
+</div>
+<import-file>module/effect.html</import-file>
+<import-file>module/component.html</import-file>
+<import-file>module/layout.html</import-file>
+<import-file>module/star.html</import-file>
+<script type="text/javascript" src="lib/jquery.2.1.1.min.js"></script>
+<script type="text/javascript" src="src/mlp.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

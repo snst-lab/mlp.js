@@ -1,0 +1,323 @@
+<template id='feature'>
+    <div style='text-align:center;margin:1rem;'>
+        <img src='img/IMAGE' style='width:7rem;height:7rem;'/>
+        <div style='font-family:"arial black";font-weight:"bold";font-size:1.2em;margin:0 0 0.5rem 0;color:rgb(50,50,50)'>TITLE</div>
+        <div style='width:15rem;font-size:0.8em;color:rgb(120,120,120);'>#CONTENT</div>
+    </div>
+</template>
+
+<template id='link'>
+    <div style='text-align:center;margin:1rem;'>
+        <a href='URL'>
+           <img src='img/IMAGE' style='width:7rem;height:7rem;'/>
+        </a>
+        <div style='font-family:"arial black";font-weight:"bold";font-size:1.2em;margin:0 0 0.5rem 0;color:rgb(50,50,50)'>TITLE</div>
+        <div style='width:15rem;font-size:0.8em;color:rgb(120,120,120);'>#CONTENT</div>
+    </div>
+</template>
+
+<template id='profile'>
+    <div style='display:flex;margin:1rem 0 1rem 2rem;'>
+        <div use='profilephoto'></div>
+        <div use='text' style='margin:auto 1rem;'>#CONTENT</div>
+    </div>
+</template>
+<flex-module id='profilephoto'>
+    @css=
+        background:url("PHOTO");
+        background-size:100%;
+        background-position:center;
+        background-repeat:no-repeat;
+        width:7rem;
+        height:7rem;
+        border-radius:50%;
+        -webkit-transition:.5s;
+        transition:.5s;
+    @cssHover=
+        background-size:110% !important;
+</flex-module>
+
+<template id='warning'>
+    <div use='warning_container'>
+        <div style='width:0.8rem;max-height:7.5rem;margin-right:1rem;background:red;'></div>
+        <img style='width:1rem;height:1rem;margin:auto 0.5rem;' src='img/exclamation-mark.png'>
+        <div use='warning_text'>#CONTENT</div>
+    </div>
+</template>
+<flex-module id='warning_container'>
+    @css=
+        display:flex;
+        width:90%;
+        min-height:5rem;
+        line-height:2.5rem;
+        margin:1rem auto;
+        background:rgb(255,180,180);
+</flex-module>
+<flex-module id='warning_text'>
+    @css=
+        font-family: "arial";
+        color: rgb(150,0,0);
+        vertical-align:middle;
+        margin:auto 1rem auto 0.5rem;
+    @media screen and (max-aspect-ratio:11/16)=
+        font-size: 3vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        font-size: 2.5vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        font-size: 0.8rem;
+</flex-module>
+
+<flex-module id='toPageTop'>
+    @css=
+        position:fixed;
+        right:3rem;
+        bottom:1.5rem;
+        width:4rem;
+        height:4rem;
+        z-index:3;
+    @click=
+        $("html,body").animate({scrollTop:0}, 800, "swing");
+</flex-module>
+
+<flex-module id='borderHorizontal'>
+    @css=
+        width:95%;
+        height:0.08rem;
+        background:rgb(230,230,230);
+        border-radius:0.05rem;
+        margin:3rem auto;
+</flex-module>
+<flex-module id='spaceHorizontal'>
+    @css=
+        width:100%;
+        height:1rem;
+</flex-module>
+
+<flex-module id='card'>
+    @css=
+        width:80vw;
+        height:auto;
+        box-sizing:border-box;
+        padding:1rem;
+        border-radius:0.2rem;
+        background:white;
+        margin: 0 auto;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+</flex-module>
+<flex-module id='text'>
+    @css=
+        font-family: "Roboto";
+        color:rgb(120,120,120);
+        font-size:1em;
+        font-weight:100;
+        text-indent:1em;
+        margin:1.5rem 2rem;
+        word-wrap:break-word;
+</flex-module>
+<flex-module id='h2'>
+    @css=
+        font-family:"Arial black";
+        font-weight:bold;
+        color: rgb(80,80,80);
+        font-size:1.8em;
+        vertical-align:middle;
+        margin:2rem auto 1.5rem 2rem;
+</flex-module>
+<template id='h2_block'>
+    <div use='h2_block_container'>
+        <div style='width:0.8rem;height:2.6rem;background:gray;'></div>
+        <div use='h2_block_text'>#CONTENT</div>
+    </div>
+</template>
+<flex-module id='h2_block_container'>
+    @css=
+        display:flex;
+        width:90%;
+        line-height:2.5rem;
+        margin:2rem auto 1.5rem 2rem;
+        border-bottom:dotted lightgray 1px;
+</flex-module>
+<flex-module id='h2_block_text'>
+    @css=
+        font-family: "arial black";
+        font-weight:bold;
+        color: rgb(80,80,80);
+        font-size:1.8em;
+        vertical-align:middle;
+        margin-left:0.5rem;
+</flex-module>
+<template id='h3_border'>
+    <div style='width:95%;margin:1.5rem auto 1rem auto;'>
+        <div use='h3_border'>#CONTENT</div>
+        <div style='width:100%;height:0.08rem;background:rgb(210,210,210);border-radius:0.05rem;'></div>
+    </div>
+</template>
+<flex-module id='h3_border'>
+    @css=
+        color: rgb(80,80,80);
+        font-size:1.3em;
+</flex-module>
+<flex-module id='h3'>
+    @css=
+        color: rgb(80,80,80);
+        font-size:1.3em;
+        width:95%;
+        margin:1.5rem auto 0.5rem auto;
+</flex-module>
+
+<flex-module id='frame'>
+    @css=
+        background:white;
+        border-radius:1rem;
+        display:flex;
+        flex-wrap: wrap;
+        margin:1.5rem auto;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:90vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:90%;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:95%;
+</flex-module>
+
+<flex-module id='code'>
+    @css=
+        box-sizing:border-box;
+        background:white;
+        border-radius:1rem;
+        display:flex;
+        flex-wrap: wrap;
+        margin:1.5rem auto;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:90vw;
+        font-size: 3vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:90%;
+        font-size: 2.5vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:95%;
+        font-size: 0.8rem;
+</flex-module>
+<template id="html">
+    <pre><code class="xml hljs" style="padding:1rem;max-height:30rem;" use="code">#CONTENT</code></pre>
+</template>
+
+<template id="javascript">
+    <pre><code class="javascript" style="padding:1rem;max-height:30rem;" use="code">#CONTENT</code></pre>
+</template>
+
+<template id='hamburger'>
+        <div use='hamburger'>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </template>
+    <flex-module id='hamburger'>
+        @click=
+            if($(THIS).hasClass('active')){
+                sideMenu_close();
+            }else{
+                sideMenu_open();
+            }
+        @hamburger_active=
+            $(THIS).addClass('active');
+        @hamburger_deactive=
+            $(THIS).removeClass('active');
+    </flex-module>
+    <style>
+    .hamburger,
+    .hamburger span {
+      display: inline-block;
+      transition: all .4s;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+       user-select: none;
+      z-index:5;
+    }
+    .hamburger {
+      position: fixed;
+      margin-top:0.8rem;
+      margin-left:1rem;
+      width: 2.1rem;
+      height: 1.8rem;
+    }
+    .hamburger span {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 0.2rem;
+      background-color: rgb(100,100,100);
+      border-radius: 0.2rem;
+    }
+    .hamburger span:nth-of-type(1) {
+      top: 0;
+    }
+    .hamburger span:nth-of-type(2) {
+      top: 0.8rem;
+    }
+    .hamburger span:nth-of-type(3) {
+      bottom: 0;
+    }
+    .hamburger.active span:nth-of-type(1) {
+      -webkit-transform: translateY(0.8rem) rotate(-45deg);
+      transform: translateY(0.8rem) rotate(-45deg);
+    }
+    .hamburger.active span:nth-of-type(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-of-type(3) {
+      -webkit-transform: translateY(-0.8rem) rotate(45deg);
+      transform: translateY(-0.8rem) rotate(45deg);
+    }
+</style>
+
+
+<style>
+    .tbl {
+        border-collapse: collapse;
+    }
+    .tbl th, .tbl td {
+        text-align:left;
+        border: 0.1px solid rgb(200,200,200);
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .tbl tr:nth-child(even) {
+        background: #fff;
+    }
+    .tbl tr:nth-child(odd) {
+        background: #ddd;
+    }
+    .tbl tr:hover {
+        background: rgb(0,200,180);
+    }
+    @media screen and (max-aspect-ratio:11/16) {
+        .tbl {
+            margin:1rem 0;
+        }
+        .tbl th, .tbl td {
+            font-size: 3vw;
+            padding:0.5rem 0.3rem;
+        }
+    }
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16) {
+        .tbl {
+            margin:1rem 0;
+        }
+        .tbl th, .tbl td {
+            font-size: 2.5vw;
+            padding:1rem 0.3rem;
+        }
+    }
+    @media screen and (min-aspect-ratio:13/16){
+        .tbl {
+            margin:1rem 2rem;
+        }
+        .tbl th, .tbl td {
+            font-size: 0.8rem;
+            padding:1rem 0.3rem;
+        }
+    }
+</style>

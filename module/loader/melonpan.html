@@ -1,0 +1,71 @@
+<div style='position:fixed;top:35vh;left:15vw;display:flex;'>
+    <svg use="melonpanAnimation" width="128" height="128" version="1.1" viewBox="0 0 33.866666 33.866666" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0 -263.13)">
+            <ellipse cx="17.151" cy="282.76" rx="15.355" ry="12.261" style="fill:rgb(0,250,200);"/>
+            <path class='d1' d="m6.4487 275.87s11.315 0.93212 18.989 10.412" style="fill:none;stroke-linecap:round;stroke-width:2.1167;stroke:#fff"/>
+            <path class='d2' d="m9.9828 271.72s11.315 0.93212 18.989 10.412" style="fill:none;stroke-linecap:round;stroke-width:2.1167;stroke:#fff"/>
+            <path class='d3' d="m27.853 275.84s-11.315 0.93213-18.989 10.412" style="fill:none;stroke-linecap:round;stroke-width:2.1167;stroke:#fff"/>
+            <path class='d4' d="m24.319 271.7s-11.315 0.93213-18.989 10.412" style="fill:none;stroke-linecap:round;stroke-width:2.1167;stroke:#fff"/>
+        </g>
+    </svg>
+    <div style='padding:2.5rem 2rem;'>
+        <div style='font-size:1.5em;color:rgb(80,80,80);margin-bottom:1vh;'>mlp.js</div>
+        <div style='font-size:1em;color:rgb(150,150,150);'>A flexible Markup Language Parser with javascript</div>
+    </div>
+</div>
+<flex-module id="melonpanAnimation">
+    @onload=
+        const $ellipse = Snap( '.melonpanAnimation ellipse' );
+        const $d1 = Snap( '.melonpanAnimation .d1' );
+        const $d2 = Snap( '.melonpanAnimation .d2' );
+        const $d3 = Snap( '.melonpanAnimation .d3' );
+        const $d4 = Snap( '.melonpanAnimation .d4' );
+        const cx =　['16.919','17.151','16.959'];
+        const cy =　['279.45','282.76','285.1'];
+        const rx =　['13.697','15.355','16.96'];
+        const ry =　['13.017','12.261','9.9174'];
+        const d1 =　['m7.3729 272.14s10.093 0.98959 16.938 11.054','m6.4487 275.87s11.315 0.93212 18.989 10.412','m5.1389 279.53s12.497 0.75398 20.974 8.4222'];
+        const d2 =　['m10.525 267.74s10.093 0.98959 16.938 11.054','m9.9828 271.72s11.315 0.93212 18.989 10.412','m9.0424 276.18s12.497 0.75397 20.974 8.4222'];
+        const d3 =　['m26.465 272.11s-10.093 0.9896-16.938 11.054','m27.853 275.84s-11.315 0.93213-18.989 10.412','m28.78 279.51s-12.497 0.75399-20.974 8.4222'];
+        const d4 =　['m23.313 267.71s-10.093 0.9896-16.938 11.054','m24.319 271.7s-11.315 0.93213-18.989 10.412','m24.876 276.15s-12.497 0.75398-20.974 8.4222'];
+        
+        function jump() {
+            return new Promise((resolve, reject) => {
+                const duration = 200;
+                $ellipse.animate({cx:cx[0], cy:cy[0], rx:rx[0], ry:ry[0]}, duration, null);
+                $d1.animate({d:d1[0]}, duration,null);
+                $d2.animate({d:d2[0]}, duration,null);
+                $d3.animate({d:d3[0]}, duration,null);
+                $d4.animate({d:d4[0]}, duration,null);
+                setTimeout(resolve,duration);
+            });
+        }
+        function neutral(){
+            return new Promise((resolve, reject) => {
+                const duration = 200;
+                $ellipse.animate({cx:cx[1], cy:cy[1], rx:rx[1], ry:ry[1]}, duration, null);
+                $d1.animate({d:d1[1]}, duration, null);
+                $d2.animate({d:d2[1]}, duration, null);
+                $d3.animate({d:d3[1]}, duration, null);
+                $d4.animate({d:d4[1]}, duration, null);
+                setTimeout(resolve,duration);
+            });
+        }
+        function down(){
+            return new Promise((resolve, reject) => {
+                const duration = 400;
+                $ellipse.animate({cx:cx[2], cy:cy[2], rx:rx[2], ry:ry[2]}, duration, null);
+                $d1.animate({d:d1[2]}, duration, null);
+                $d2.animate({d:d2[2]}, duration, null);
+                $d3.animate({d:d3[2]}, duration, null);
+                $d4.animate({d:d4[2]}, duration, null);
+                setTimeout(resolve,duration);
+            });
+        }
+        function repeat(){
+            const duration = 1000;
+            down().then(neutral).then(jump).then(neutral);
+            setTimeout(repeat,duration);
+        }
+        repeat();
+</flex-module>

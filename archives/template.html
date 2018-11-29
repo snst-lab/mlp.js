@@ -1,0 +1,331 @@
+<flex-module id='iconCircle'>
+        @class=
+            material-icons
+        @css=
+            position:fixed;
+            top:75vh;
+            right:2rem;
+            color:white;
+            font-size:2em;
+            line-height: 3.5rem;
+            width:3.5rem;
+            height:3.5rem;
+            vertical-align:middle;
+            text-align:center;
+            background: deeppink;
+            border-radius:50%;
+            box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
+            -webkit-transition:.3s;
+            transition:.3s;
+        @cssHover=
+            background: hotpink;
+            box-shadow: 0px 3px 10px rgba(0,0,0,0.3);
+        @click=
+            trigger('getData');
+</flex-module>
+<template id='inputform'>
+    <div style='display:flex'>
+        <div use='inputform_button'>
+            <div use='inputform_editicon'>edit</div>
+        </div>
+        <div use='inputform_container'>
+            <input use='inputform'/>
+            <div use='inputform_spin'></div>
+        </div>
+    </div>
+</template>
+<flex-module id='inputform_container'>
+    @css=
+        position:absolute;
+        top:4rem;
+        left:2.5rem;
+        height:2.5rem;
+    @onload=
+        $(THIS).width(screen.width-$(THIS).height());
+</flex-module>
+<flex-module id='inputform'>
+    @css=
+        height:100%;
+        width:100%;
+        font-size:1.5em;
+        color: rgb(100,100,100);
+        text-indent:0.5em;
+        border:none;
+        outline:none;
+        -webkit-transition:.1s;
+        transition:.1s;
+    @focus=
+        $(THIS).next().width('100%');
+    @blur=
+        $(THIS).next().width('0%');
+</flex-module> 
+<flex-module id='inputform_spin'>
+    @css=
+        margin: 0 auto 0 auto;
+        right:0;
+        left:0;
+        width:0;
+        z-index:1;
+        height:1.5px;
+        background:rgb(0, 200, 180);
+        -webkit-transition:.3s;
+        transition:.3s;
+</flex-module>
+<flex-module id='inputform_button'>
+    @css=
+        position:absolute;
+        top:4rem;
+        left:0;
+        width:2.5rem;
+        height:2.5rem;
+        background:lightgray;
+        z-index:1;
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center; 
+        -webkit-justify-content: center;
+        justify-content: center; 
+        -webkit-transition:.1s;
+        transition:.1s;
+    @cssHover=
+        box-shadow: 1.5px 1.5px 1px rgba(0,0,0,0.3) inset;
+</flex-module> 
+<flex-module id='inputform_editicon'>
+    @class=
+        material-icons
+    @css=
+        color:gray;
+        font-size:1.8em;
+        -webkit-transition:.1s;
+        transition:.1s;
+    @cssHover=
+        color:rgb(240,240,240);
+</flex-module>
+
+
+<template id='starRotate'>
+    <svg use="starRotate" width="512" height="512" xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <polygon class="" points="256,12.531 327.047,183.922 512,198.531 370.938,319.047 414.219,499.469 256,402.563 97.781,499.469 
+            141.063,319.047 0,198.531 184.953,183.922" style="fill:deeppink;"></polygon>
+    </svg>
+</template>
+<flex-module id="starRotate">
+    @css=
+        transform:scale(0.4,0.4);
+        margin:-110px;
+    @mouseenter=
+         $(THIS).css({'animation': 'starRotate_start 0.5s linear infinite'});
+    @mouseleave=
+         $(THIS).css({'animation': 'starRotate_stop 1s ease-out forwards'});
+    @keyframes starRotate_start =
+        from {
+            -webkit-transform: rotate(0deg) scale(0.4,0.4);
+            -o-transform: rotate(0deg) scale(0.4,0.4);
+            transform: rotate(0deg) scale(0.4,0.4);
+        }
+        to {
+            -webkit-transform: rotate(360deg) scale(0.4,0.4);
+            -o-transform: rotate(360deg) scale(0.4,0.4);
+            transform: rotate(360deg) scale(0.4,0.4);
+        }
+    @keyframes starRotate_stop =
+        from {
+            -webkit-transform: rotate(0deg) scale(0.4,0.4);
+            -o-transform: rotate(0deg) scale(0.4,0.4);
+            transform: rotate(0deg) scale(0.4,0.4);
+        }
+        to {
+            -webkit-transform: rotate(360deg) scale(0.4,0.4);
+            -o-transform: rotate(360deg) scale(0.4,0.4);
+            transform: rotate(360deg) scale(0.4,0.4);
+        }
+</flex-module>
+
+<template>
+        <div use='headerText_container'>
+            <input use='headerText' class='headerText' placeholder='HEADERTEXT'/>
+            <div use='headerText_spin'></div>
+        </div>
+    </template>
+    <flex-module id='header'>
+        @css=
+            position:fixed;        
+            display:flex;
+            margin: 0 auto;
+            top:0;
+            bottom:0;
+            right:0;
+            left:0;
+            width:100%;
+            height:3.5rem;
+            line-height:3.5rem;
+            z-index:3;
+            background:rgb(255,255,255);
+            border-bottom : solid 0.1px rgb(230,230,230);
+            -webkit-transition:.3s;
+            transition:.3s;
+    </flex-module>
+    <flex-module id='headerText_container'>
+        @css=
+            position:absolute;
+            top:1rem;
+            left:5rem;
+            height:2.5rem;
+            width:55%;
+    </flex-module>
+    <flex-module id='headerText'>
+        @css=
+            color:gray;
+            font-size:1.5em;
+            width:100%;
+            line-height:100%;
+            vertical-align:middle;
+            outline:none;
+            border:none;
+            background:transparent;
+            -webkit-transition:.3s;
+            transition:.3s;
+        @focus=
+            $(THIS).next().width('100%');
+        @blur=
+            $(THIS).next().width('0%');
+    </flex-module>
+    <flex-module id='headerText_spin'>
+        @css=
+            margin: 0 auto 0 auto;
+            right:0;
+            left:0;
+            width:0;
+            z-index:1;
+            height:1.5px;
+            background:rgb(0, 200, 180);
+            -webkit-transition:.3s;
+            transition:.3s;
+    </flex-module>
+    
+    
+    <flex-module id='acordionText'>
+        @class=
+            acordionText
+        @css=
+            font-size:1em;
+            color:gray;
+            margin:auto 2rem auto 1rem;
+            font-size:0;
+            text-align:center;
+            -webkit-transition:.3s;
+            transition:.3s;
+        @acordionText_open=
+            $(THIS).css({'font-size':'1em'});
+        @acordionText_close=
+            $(THIS).css({'font-size':'0'});
+    </flex-module>
+    <flex-module id='acordionIcon'>
+        @class=
+            material-icons
+        @css=
+            color:white;
+            width:0;
+            height:0;
+            left:0;
+            margin: auto 0;
+            font-size:0;
+            line-height:3.1rem;
+            text-align:center;
+            background-color: COLOR;
+            border-radius:50%;
+            box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
+            -webkit-transition:.3s;
+            transition:.3s;
+        @acordionIcon_open=
+            $(THIS).css({'width':'3rem','height':'3rem','font-size':'1.5em'});
+        @acordionIcon_close=
+            $(THIS).css({'width':'0','height':'0','font-size':'0'});
+    </flex-module>
+    <flex-module id="acordionList">
+        @class=
+            acordionList
+        @css=
+            width:40vw;
+            height:0;
+            margin:0;
+            line-height:15vh;
+            color:rgb(10,10,10);
+            background:transparent;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-transition:.3s;
+            transition:.3s;
+        @click=
+            alert($(THIS).text());
+        @mouseenter=
+            acordionList_open();
+            $(THIS).children('.acordionText').css({'font-size':'1.2rem','color':'black'});
+            $(THIS).children('.material-icons').css({'width':'3.2rem','height':'3.2rem','font-size':'1.7rem','background':'HOVER'});
+        @mouseleave=
+            $(THIS).children('.acordionText').css({'font-size':'1rem','color':'gray'});
+            $(THIS).children('.material-icons').css({'width':'3rem','height':'3rem','font-size':'1.5rem','background':'COLOR'});
+        @acordionList_open=
+            $('.acordionList').css({'height':'15vh'});
+            moreOverlay_show();
+            acordionIcon_open();
+            acordionText_open();
+        @acordionList_close=
+            $('.acordionList').css({'height':'0'});
+            moreOverlay_hide();
+            acordionIcon_close();
+            acordionText_close();
+    </flex-module>
+    <flex-module id="acordionList2">
+        @class=
+            acordionList
+        @css=
+            width:33.33vw;
+            height:0;
+            margin:0;
+            color:rgb(10,10,10);
+            background:rgb(255,255,255);
+            font-size:0;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center; 
+            -webkit-justify-content: center;
+            justify-content: center; 
+            -webkit-transition:.3s;
+            transition:.3s;
+        @cssHover=
+            background:rgb(0, 200, 180);
+        @click=
+            alert($(THIS).text());
+        @mouseenter=
+            acordionList_open();
+        @mouseleave=
+            acordionList_close();
+        @acordionList_open=
+            $('.acordionList').css({'height':'3rem','font-size':'0.8em'});
+            moreOverlay_show();
+        @acordionList_close=
+            $('.acordionList').css({'height':'0','font-size':'0'});
+            moreOverlay_hide();
+    </flex-module>
+    <flex-module id='moreOverlay'>
+        @css=
+            position:fixed;
+            z-index:-1;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:transparent
+            -webkit-transition:.3s;
+            transition:.3s;
+        @click=
+            acordionList_close();
+        @moreOverlay_show=
+            $(THIS).css({'background':'rgba(255,255,255,0.7)','z-index':'2'}); 
+        @moreOverlay_hide=
+            $(THIS).css({'background':'transparent','z-index':'-1'}); 
+    </flex-module>

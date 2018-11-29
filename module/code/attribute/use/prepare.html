@@ -1,0 +1,81 @@
+<flex-module id='square1'>
+    @css=
+        vertical-align:middle;
+        text-align:center;
+        margin-top:2rem;
+        margin-left:2rem;
+        background:darkorange;
+        transform: rotate(0deg);
+        -webkit-transition:.5s;
+        transition:.5s;
+        opacity:0;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:30vw;
+        height:30vw;
+        font-size:3vw;
+        line-height:30vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:20vw;
+        height:20vw;
+        font-size:2vw;
+        line-height:20vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:10rem;
+        height:10rem;
+        font-size:1rem;
+        line-height:10rem;
+    @cssHover=
+        box-shadow: 0 1rem 1rem rgb(200,200,200) !important;
+    @inview 0.7=
+        $(THIS).css({'opacity':'1','margin-top':'3rem'});
+    @outview 0=
+        $(THIS).css({'opacity':'0','margin-top':'2rem'});
+    @click=
+        alert('This is a flex test.');
+    @swipe right=
+        $(THIS).css({'transform':'rotate(360deg)','background':'yellow'});
+        $(THIS).text('Swipe Me Left!');
+    @swipe left=
+        $(THIS).css({'transform':'rotate(-360deg)','background':'royalblue'});
+        $(THIS).text('Swipe Me Right!');
+</flex-module>
+
+<flex-module id='square2'>
+    @css=
+        vertical-align:middle;
+        text-align:center;
+        margin-top:2rem;
+        margin-left:2rem;
+        background:lime;
+        word-wrap:normal;
+        transform: rotate(0deg);
+        -webkit-transition:.5s;
+        transition:.5s;
+        opacity:0;
+    @media screen and (max-aspect-ratio:11/16) =
+        width:30vw;
+        height:30vw;
+        font-size:3vw;
+        line-height:30vw;
+    @media screen and (min-aspect-ratio:11/16) and (max-aspect-ratio:13/16)=
+        width:20vw;
+        height:20vw;
+        font-size:2vw;
+        line-height:20vw;
+    @media screen and (min-aspect-ratio:13/16)=
+        width:10rem;
+        height:10rem;
+        font-size:1rem;
+        line-height:10rem;
+    @cssHover=
+        box-shadow: 0 1rem 1rem rgb(200,200,200) !important;
+    @inview 1=
+        $(THIS).css({'opacity':'1','margin-top':'3rem'});
+    @outview 0=
+        $(THIS).css({'opacity':'0','margin-top':'2rem'});
+    @switch=
+        #1: $(THIS).css({'background':'red'});
+        #2: $(THIS).css({'background':'darkorange'});
+        #3: $(THIS).css({'background':'blue'});
+        #4: $(THIS).css({'background':'lime'});
+</flex-module>
