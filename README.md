@@ -18,7 +18,9 @@ Operation confirmed in the following browser.
 - Opera >57.0  
 
 ## Install
+CDN
 
+```<script type="text/javascript" src="https://raw.githack.com/snst-lab/mlp.js/master/src/mlp.js"></script>```
 
 ## Licence
 [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html)  
