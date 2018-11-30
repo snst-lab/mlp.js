@@ -5,7 +5,7 @@ This is an HTML parser that extends HTML syntax and makes your Front-end web dev
 
 ## Usage
 Demo and detailed usage are introduced on the Github Page.
-[![DEMO SITE](https://github.com/snst-lab/mlp.js/blob/master/public/img/melonpan-color.png)](https://snst-lab.github.io/mlp.js/public/)
+[DEMO SITE](https://snst-lab.github.io/mlp.js/public/)
 
 
 ## Requirement
