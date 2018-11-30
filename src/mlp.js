@@ -1259,12 +1259,12 @@ mlp.Main = class {
 
 mlp.init = function () {
     return new Promise(function(resolve,reject){
-        document.addEventListener('DOMContentLoaded', function () {
+        // document.addEventListener('DOMContentLoaded', function () {
             const body = document.querySelector('body');
             body.style.display = '';
             new mlp.Main();
             resolve();
-        }, false);
+        // }, false);
     });
 }
 mlp.init().then(function(){mlp.on('load');});
