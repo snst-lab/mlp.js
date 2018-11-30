@@ -1,4 +1,4 @@
-#mlp.js
+mlp.js
 ====
 This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.  
 
