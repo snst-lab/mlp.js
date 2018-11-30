@@ -4,7 +4,7 @@ This is an HTML parser that extends HTML syntax and makes your Front-end web dev
 
 
 ## Usage
-Demo and detailed usage are introduced on the Github Page.  
+Demo and detailed usage are introduced on the demo site.  
 
 Visit [DEMO SITE](https://snst-lab.github.io/mlp.js/public/)
 
