@@ -19,7 +19,9 @@ Operation confirmed in the following browser.
 
 ## Install
 ### CDN
-```html <script type="text/javascript" src="https://raw.githack.com/snst-lab/mlp.js/master/src/mlp.js"></script>```
+```html
+<script type="text/javascript" src="https://raw.githack.com/snst-lab/mlp.js/master/src/mlp.js"></script>
+```
 
 ## Licence
 [LGPL](https://www.gnu.org/licenses/lgpl-3.0.html)  
