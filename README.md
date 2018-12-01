@@ -1,8 +1,8 @@
 mlp.js
 ====
 This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.  
-<a href="https://snst-lab.github.io/mlp.js/public/"><img src="https://snst-lab.github.io/mlp.js/public/img/melonpan.gif" width="20%"></a>
-
+<!-- <a href="https://snst-lab.github.io/mlp.js/public/"><img src="https://snst-lab.github.io/mlp.js/public/img/melonpan.gif" width="20%"></a> -->
+[![Melonpan](https://snst-lab.github.io/mlp.js/public/img/melonpan.gif)](https://snst-lab.github.io/mlp.js/public/)
 
 ## Usage
 Demo and detailed usage are introduced on the demo site.   
