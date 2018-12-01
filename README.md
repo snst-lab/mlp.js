@@ -14,9 +14,9 @@ Visit [DEMO SITE (https://snst-lab.github.io/mlp.js/public/)](https://snst-lab.g
 The browser supports Javascript (ECMAScript 2015) and Custom Element.
 
 Operation confirmed in the following browser.
-- Chrome >70.0
-- Firefox >63.0
-- Opera >57.0  
+- Chrome
+- Firefox
+- Opera
 
 ## Install
 ### CDN
