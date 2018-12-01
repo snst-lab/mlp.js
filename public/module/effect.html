@@ -94,16 +94,23 @@
       color:rgb(150,150,150);
     @onload=
         const self = mlp.dom(THIS);
-        const chars = self.textContent.split('');
-        self.textContent = '';
-        var i = 0;
-        setTimeout(function(){
-            const interval = setInterval(function(){
-              self.textContent += chars[i];
-              i++;
-              if(i===chars.length){
-                  clearInterval(interval);
-              }
-          },100);
-      },4000);
+        if(DESKTOP){
+          const chars = self.textContent.split('');
+          self.textContent = '';
+          var i = 0;
+          setTimeout(function(){
+              const interval = setInterval(function(){
+                self.textContent += chars[i];
+                i++;
+                if(i===chars.length){
+                    clearInterval(interval);
+                }
+              },100);
+          },4000);
+        }else{
+          self.style.display = 'none';
+          setTimeout(function(){
+            self.fadeIn(200);
+          },4000);
+        }
 </flex-module>
