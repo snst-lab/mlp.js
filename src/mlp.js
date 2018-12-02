@@ -115,8 +115,6 @@ _mlp.defineMethods = class {
             });
         }
 
-        
-
         if (!HTMLElement.prototype.inview) {
             Object.defineProperty(HTMLElement.prototype, "inview", {
                 configurable: true,
@@ -125,7 +123,7 @@ _mlp.defineMethods = class {
                 value: function (callbackInView, callbackOutView, thresholdValue) {
                     const options = {
                         root: null,
-                        rootMargin: '-3%',
+                        rootMargin: '-1%',
                         threshold: [thresholdValue || 0.5]
                     };
                     const observer = new IntersectionObserver(function (entries) {
@@ -157,11 +155,11 @@ _mlp.defineMethods = class {
                         self.style.display = '';
                         self.style.opacity = 0;
                         const interval = setInterval(function () {
-                            self.style.opacity = +self.style.opacity + 0.05;
+                            self.style.opacity = +self.style.opacity + 0.1
                             if (self.style.opacity >= 1) {
                                 clearInterval(interval);
                             }
-                        }, time * 0.05);
+                        }, time * 0.1);
                     }
                 }
             });
@@ -181,12 +179,12 @@ _mlp.defineMethods = class {
                         const self = this;
                         self.style.opacity = 1;
                         const interval = setInterval(function () {
-                            self.style.opacity = +self.style.opacity - 0.05;
+                            self.style.opacity = +self.style.opacity - 0.1;
                             if (self.style.opacity <= 0) {
                                 clearInterval(interval);
                                 self.style.display = 'none';
                             }
-                        }, time * 0.05);
+                        }, time * 0.1);
                     }
                 }
             });
@@ -311,7 +309,6 @@ _mlp.Setting = class {
         _mlp.afterWait = [];
         _mlp.onTrigger = [];
         _mlp.atInterval = [];
-        _mlp.attributes = ['clone', 'use', 'for', 'replace', 'flex', 'on', 'wait', 'interval', 'screen'];
         _mlp.resizeSaver = 0;
         _mlp.sanitize = true;
         _mlp.cookie = false;
@@ -403,7 +400,6 @@ class flexModule extends HTMLElement {
         super();
         if (this.getAttribute('id') !== null) {
             _mlp.modules.push({ 'id': this.getAttribute('id'), 'code': this.innerHTML });
-            (0, eval)('var ' + this.getAttribute('id') + '=' + this.getAttribute('id') + '||{};');
             this.parentNode.removeChild(this);
         }
     }
@@ -524,7 +520,6 @@ _mlp.Clone = class {
             _mlp.Clone.template(self, attr);
         }
     }
-
     static template(self, id) {
         const template = document.querySelector('template#' + id);
         const clone = template.innerHTML.replace(/#CONTENT/g, self.innerHTML);
@@ -549,8 +544,8 @@ _mlp.Operator = class {
         }
     }
     static parse(string) {
-        var str = string;
-        var after = '';
+        let str = string;
+        let after = '';
 
         while (true) {
             const scriptStart = str.indexOf('{{', 0);
@@ -558,7 +553,6 @@ _mlp.Operator = class {
             const scriptEnd = str.indexOf('}}', scriptStart);
             const text = str.slice(0, scriptStart);
             const script = str.slice(scriptStart + 2, scriptEnd);
-            // const script = str.slice(scriptStart + 2, scriptEnd).replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
             str = str.slice(scriptEnd + 2);
             after += text + String((0, eval)(script));
         }
@@ -575,20 +569,17 @@ _mlp.For = class {
             _mlp.For.expand(self, data);
         }
     }
-
     static parse(attribute) {
-        var data = [];
-        var attr = attribute.split(';');
-        // var attr = attribute.replace(/(\s+)|(\t+)|(\r?\n)/g, "").split(';');
+        const data = [];
+        let attr = attribute.split(';');
         attr = attr.filter(function (e) { return e !== ""; });
 
         attr.forEach(function (element) {
-            var el = element.split(':');
+            const el = element.split(':');
             data.push({ 'dst': el[0], 'src': _mlp.For.parseSrc(el[1]) });
         });
         return data;
     }
-
     static parseSrc(src) {
         if (src.match(',') && !src.match('->') && !src.match('/')) {
             return src.split(',').filter(function (e) { return e !== ""; });
@@ -605,16 +596,16 @@ _mlp.For = class {
             } else {
                 end = +end;
             }
-            var arr = [];
+            const arr = [];
             if (start < end) {
-                var count = start;
+                let count = start;
                 while (count <= end) {
                     arr.push(count);
                     count += step;
                 }
                 return arr;
             } else if (end < start) {
-                var count = start;
+                let count = start;
                 while (count >= end) {
                     arr.push(count);
                     count -= step;
@@ -627,12 +618,11 @@ _mlp.For = class {
             // return src.replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
         }
     }
-
     static expand(self, data) {
         var master = String(self.outerHTML);
         data.forEach(function (element) {
             var fragment = '';
-            var array = (0, eval)(element.src);
+            const array = (0, eval)(element.src);
             if (array instanceof Array) {
                 array.forEach(function (src, i) {
                     if (master.match('::') && !(element.src instanceof Array)) {
@@ -667,14 +657,13 @@ _mlp.ForAfterWait = class {
             _mlp.ForAfterWait.clone(self, wait);
         }
     }
-
     static expand(self, data, wait) {
         var master = String(self.outerHTML);
         var fragment = '';
         self.style.display = 'none';
 
         data.forEach(function (element) {
-            var array = (0, eval)(element.src);
+            const array = (0, eval)(element.src);
             if (array instanceof Array) {
                 array.forEach(function (src, i) {
                     if (master.match('::') && !(element.src instanceof Array)) {
@@ -694,13 +683,11 @@ _mlp.ForAfterWait = class {
             }
         });
     }
-
     static clone(self, wait) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
         _mlp.ForAfterWait.convertToDom(self, master, wait);
     }
-
     static convertToDom(self, string, wait) {
         string = _mlp.Operator.readScript(string.unescapeHTML());
         const dom = string.toDom();
@@ -724,7 +711,6 @@ _mlp.ForOnTrigger = class {
             _mlp.ForOnTrigger.clone(self, on);
         }
     }
-
     static expand(self, data, on) {
         var master = String(self.outerHTML);
         var fragment = '';
@@ -751,7 +737,6 @@ _mlp.ForOnTrigger = class {
             }
         });
     }
-
     static clone(self, on) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
@@ -781,7 +766,6 @@ _mlp.ForAtInterval = class {
             _mlp.ForAtInterval.clone(self, interval);
         }
     }
-
     static expand(self, data, interval) {
         var master = String(self.outerHTML);
         var fragment = '';
@@ -808,13 +792,11 @@ _mlp.ForAtInterval = class {
             }
         });
     }
-
     static clone(self, interval) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
         _mlp.ForAtInterval.convertToDom(self, master, interval);
     }
-
     static convertToDom(self, string, interval) {
         string = _mlp.Operator.readScript(string.unescapeHTML());
         const dom = string.toDom();
@@ -836,15 +818,13 @@ _mlp.Replace = class {
             self.removeAttribute('replace');
         }
     }
-
     static parse(attribute) {
-        var replace = [];
-
-        var attr = attribute.split('|');
+        const replace = [];
+        let attr = attribute.split('|');
         attr = attr.filter(function (e) { return e !== ""; });
 
         attr.forEach(function (element) {
-            var el = element.split('=>');
+            const el = element.split('=>');
             replace.push({
                 'src': el[0].replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, ""),
                 'dst': el[1].replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "")
@@ -852,7 +832,6 @@ _mlp.Replace = class {
         });
         return replace;
     }
-
     static execute(self, replace) {
         replace.forEach(function (element) {
             self.setAttribute('flex', String(self.getAttribute('flex')).replace(new RegExp(element.src, 'g'), element.dst));
@@ -870,16 +849,15 @@ _mlp.Use = class {
             self.removeAttribute('use');
         }
     }
-
     static expand(self, moduleId) {
-        for (var mod of _mlp.modules) {
+        _mlp.modules.forEach(function(mod){
             if (mod.id === moduleId) {
                 const codeByUse = mod.code;
                 const codeByFlex = self.getAttribute('flex') !== null ? self.getAttribute('flex') : '';
                 self.classList.add(moduleId);
                 self.setAttribute('flex', '@id=' + moduleId + codeByUse + codeByFlex);
             };
-        }
+        });
     }
 }
 
@@ -892,10 +870,9 @@ _mlp.Flex = class {
             self.removeAttribute('flex');
         }
     }
-
     static parseModule(str) {
-        var obj = {};
-        var key, keyStart, keyEnd, value, valueEnd;
+        const obj = {};
+        let key, keyStart, keyEnd, value, valueEnd;
         while (true) {
             keyStart = str.indexOf('@', 0) + 1;
             keyEnd = str.indexOf('=', keyStart);
@@ -909,10 +886,9 @@ _mlp.Flex = class {
         }
         return obj;
     }
-
     static parseSwitch(str) {
-        var obj = {};
-        var key, keyStart, keyEnd, value, valueEnd;
+        const obj = {};
+        let key, keyStart, keyEnd, value, valueEnd;
         while (true) {
             keyStart = str.indexOf('#', 0) + 1;
             keyEnd = str.indexOf(':', keyStart);
@@ -942,7 +918,7 @@ _mlp.Flex = class {
     static setCSS(self, mod, className) {
         const styleTag = document.getElementById('_mlp-style-master');
 
-        Object.keys(mod).forEach(function (key) {
+        Object.keys(mod).forEach(function(key) {
             if (key === 'css') {
                 const rule = document.createTextNode('.' + className + '{' + mod[key] + '}');
                 styleTag.appendChild(rule);
@@ -1089,7 +1065,6 @@ _mlp.Flex = class {
                 }, interval | 0 || 1000);
             }
         });
-
         _mlp.eventList.forEach(function (event) {
             if (typeof mod[event] !== 'undefined') {
                 self.addEventListener(event, function () {
@@ -1108,7 +1083,6 @@ _mlp.FlexOnlyCSS = class {
             _mlp.Flex.readModule(self, attr);
         }
     }
-
     static readModule(self, code) {
         const mod = _mlp.Flex.parseModule(code);
         const className = 'c' + _mlp.uniqueStr();
@@ -1126,7 +1100,6 @@ _mlp.FlexOnlyEvent = class {
             self.removeAttribute('flex');
         }
     }
-
     static readModule(self, code) {
         const mod = _mlp.Flex.parseModule(code);
         const className = 'c' + _mlp.uniqueStr();
@@ -1151,7 +1124,6 @@ _mlp.Screen = class {
             window.addEventListener('orientationchange', fn);
         }
     }
-
     static readProperty() {
         for (var key in _mlp.screen) {
             (0, eval)('window.' + key + '=' + _mlp.screen[key] + '? true : false;');
@@ -1166,7 +1138,6 @@ _mlp.Screen = class {
                     const screenPropertyArray = screenProperty.split(',');
                     screenPropertyArray.forEach(function (property) {
                         const prop = property;
-                        // const prop = property.replace(/(\s+)|(\t+)|(\r?\n)/g, "");
                         Object.keys(_mlp.screen).forEach(function (key) {
                             if (prop === key && (0, eval)(key)) {
                                 self.style.display = '';
@@ -1193,7 +1164,6 @@ _mlp.Main = class {
         _mlp.Main.atInterval();
         new _mlp.Screen();
     }
-
     static createStyleTag() {
         const style = document.createElement('style');
         style.id = '_mlp-style-master';
@@ -1202,7 +1172,6 @@ _mlp.Main = class {
         const head = document.querySelector('head');
         head.appendChild(style);
     }
-
     static generateDOM(Class) {
         _mlp.targetDOM.forEach(function (dom) {
             const doms = document.querySelectorAll(dom);
@@ -1263,7 +1232,6 @@ _mlp.Main = class {
             });
         });
     }
-
     static afterWait() {
         _mlp.afterWait.forEach(function (variable) {
             Object.defineProperty(window, variable, {
@@ -1289,7 +1257,6 @@ _mlp.Main = class {
             });
         });
     }
-
     static onTrigger() {
         _mlp.onTrigger.forEach(function (on) {
             document.addEventListener(on, function () {
@@ -1309,7 +1276,6 @@ _mlp.Main = class {
             });
         });
     }
-
     static atInterval() {
         _mlp.atInterval.forEach(function (interval) {
             setInterval(function () {
@@ -1334,12 +1300,12 @@ _mlp.Main = class {
 
 _mlp.init = function () {
     return new Promise(function (resolve, reject) {
-        // document.addEventListener('DOMContentLoaded', function () {
-        const body = document.querySelector('body');
-        body.style.display = '';
-        new _mlp.Main();
-        resolve();
-        // }, false);
+        document.addEventListener('DOMContentLoaded', function () {
+            const body = document.querySelector('body');
+            body.style.display = '';
+            new _mlp.Main();
+            resolve();
+        }, false);
     });
 }
 _mlp.init().then(function () { mlp.on('load'); });

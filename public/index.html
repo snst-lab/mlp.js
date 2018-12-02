@@ -16,7 +16,7 @@
 </head>
 <body style='display:none'>
 <div clone='header'></div>
-<div style='display:flex'>
+<span style='display:flex'>
     <div use='sideMenu'>
         <div clone='menuIndex' sub='0'>Introduction</div>
         <div use='menuSub' sub='0'>Features</div>
@@ -58,20 +58,20 @@
         </div>
         <div clone='h2_block'>Features</div>
         <div use='spaceHorizontal'></div>
-        <div style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
+        <span style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
             <div clone='feature' replace='TITLE=>Modularity | IMAGE=>modularity.png'>You can modularize html,css,and javascript codes.</div>
             <div clone='feature' replace='TITLE=>Scalability | IMAGE=>scalability.png'>Code splitting and modularization make your web development highly scalable.</div>
             <div clone='feature' replace='TITLE=>Immediacy | IMAGE=>immediacy.png'>This library parses html at runtime. You do not need to transpile the code.</div>
             <div clone='feature' replace='TITLE=>Easy Installation | IMAGE=>setup.png'>You can use it by reading only one js file. There is no dependency library.</div>
-        </div>
+        </span>
         <div clone='h2_block'>Community</div>
         <div use='text'>
             Mlp.js is a public beta. If you like, join the community and cooperate in improving the source.
         </div>
-        <div style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
+        <span style='display:flex;  align-items: center; justify-content: center; flex-wrap: wrap;'>
             <div clone='link' replace='TITLE=>Github | URL=>https://github.com/snst-lab/mlp.js | IMAGE=>github-pink.png'>Mlp.js is provided with the LGPL license. Please commit, pull or clone as necessary.</div>
             <div clone='link' replace='TITLE=>Discord | URL=>https://discord.gg/ZJPmDjx | IMAGE=>discord.png'>Please obtain the invitation code from the icon above and join our Discord.</div>
-        </div>
+        </span>
 
         <div use='spaceHorizontal'></div>
         <div use='borderHorizontal'></div>
@@ -142,9 +142,9 @@
             "Import-file" is a custom tag that loads the contents of the file in the path specified by its own text content. With code splitting, you can do scalable developments. It is also useful for assigning large json or long strings to variables.
         </div>
         <div use='h3'>Example1</div>
-        <div style='margin-left:2rem;height:15rem;'>
+        <span style='margin-left:2rem;height:15rem;'>
             <import-file>module/code/custom_element/import-file/usage.html</import-file>
-        </div>
+        </span>
         <div use='h3'>HTML file (document.html)</div>
         <div clone='html'><import-file as='string'>module/code/custom_element/import-file/document.html</import-file></div>
         <div use='h3'>HTML</div>
@@ -510,13 +510,14 @@
 
         <div use='footer'>Copyright &copy; 2018 TANUSUKE</div>
     </div>
-</div>
+</span>
 <import-file>module/effect.html</import-file>
 <import-file>module/component.html</import-file>
 <import-file>module/layout.html</import-file>
 <import-file>module/star.html</import-file>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="https://rawcdn.githack.com/snst-lab/mlp.js/61d6aa6922d100259883e3f195cf0b570da4259b/src/mlp.js"></script>
+<script type="text/javascript" src="../src/mlp.js"></script>
+<!-- <script type="text/javascript" src="https://rawcdn.githack.com/snst-lab/mlp.js/61d6aa6922d100259883e3f195cf0b570da4259b/src/mlp.js"></script> -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>

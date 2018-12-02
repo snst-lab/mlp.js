@@ -1,12 +1,13 @@
 
 <template id='textEffect'>
-    <div style='background:url("img/black-cube-min.jpg");background-size: cover;width:100%;height:15rem;text-align:center;'>
+    <div style='background:url("img/black-cube-min.jpg");background-size:cover;width:100%;height:15rem;display:flex;align-items:center;justify-content:center;'>
         <div use='textEffectString'>#CONTENT</div>
         <div use='typeStrings'>SUBTITLE</div>
-      </div>
+    </div>
 </template>
 <flex-module id='textEffectString'>
     @css=
+        position:absolute;
         font-size:3.5em;
         box-sizing:border-box;
         align-items: center;
@@ -30,25 +31,25 @@
     @keyframes textEffect =
       0% {
         text-shadow: 0 0 40px #fff;
-        margin:1rem 5rem 0 5rem;
+        margin:-10rem 5rem 0 5rem;
         opacity: 0;
         transform: rotateY(-270deg);
       }
       25% {
         text-shadow: 0 0 40px #fff;
-        margin:1rem 3rem 0 3rem;
+        margin:-7rem 3rem 0 3rem;
         opacity: 0.3;
         transform: rotateY(0deg);
       }
       40% {
         text-shadow: 0 0 10px #fff;
-        margin:8rem 2rem 0 2rem;
+        margin:-4rem 2rem 0 2rem;
         opacity: 0.7;
         transform: rotateY(270deg) translateZ(100px);
       }
       50% {
         text-shadow: 0 0 5px #fff;
-        margin:6rem 1rem 0 1rem;
+        margin:-1rem 1rem 0 1rem;
         letter-spacing: 1em;
         opacity: 0.8;
         transform: rotateY(0deg) translateZ(100px);
@@ -61,28 +62,28 @@
       }
       80% {
         text-shadow: 0 0 15px #fff;
-        margin:4rem 0.4rem 0 0.4rem;
+        margin:-2rem 0.4rem 0 0.4rem;
         opacity: 1;
         transform: rotateY(0deg) translateZ(130px);
         pointer-events: none;
       }
       90%{
         text-shadow: 0 0 15px #fff;
-        margin:4rem 0.4rem 0 0.4rem;
+        margin:-4rem 0.4rem 0 0.4rem;
         opacity: 1;
         transform: rotateY(0deg) translateZ(130px);
         pointer-events: none;
       }
       95%{
         text-shadow: 0 0 15px #fff;
-        margin:3.7rem 0.4rem 0 0.4rem;
+        margin:-4.3rem 0.4rem 0 0.4rem;
         opacity: 1;
         transform: rotateY(0deg) translateZ(130px);
         pointer-events: none;
       }
       100% {
         text-shadow: 0 0 25px #fff;
-        margin:4rem 0.4rem 0 0.4rem;
+        margin:-4rem 0.4rem 0 0.4rem;
         opacity: 1;
         transform: rotateY(0deg) translateZ(130px);
         pointer-events: none;
@@ -90,7 +91,8 @@
 </flex-module>
 <flex-module id='typeStrings'>
     @css=
-      margin-top:1rem;
+      position:absolute;
+      margin:2rem auto 0 auto;
       color:rgb(150,150,150);
     @onload=
         const self = mlp.dom(THIS);

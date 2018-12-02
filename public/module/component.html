@@ -17,10 +17,10 @@
 </template>
 
 <template id='profile'>
-    <div style='display:flex;margin:1rem 0 1rem 2rem;'>
+    <span style='display:flex;margin:1rem 0 1rem 2rem;'>
         <a href='https://pragma-curry.com/'><div use='profilephoto'></div></a>
         <div use='text' style='margin:auto 1rem;'>#CONTENT</div>
-    </div>
+    </span>
 </template>
 <flex-module id='profilephoto'>
     @css=
@@ -39,7 +39,7 @@
 
 <template id='warning'>
     <div use='warning_container'>
-        <div style='width:0.8rem;max-height:7.5rem;margin-right:1rem;background:red;'></div>
+        <span style='width:0.8rem;max-height:7.5rem;margin-right:1rem;background:red;'></span>
         <img style='width:1rem;height:1rem;margin:auto 0.5rem;' src='img/exclamation-mark.png'>
         <div use='warning_text'>#CONTENT</div>
     </div>
@@ -125,7 +125,7 @@
 </flex-module>
 <template id='h2_block'>
     <div use='h2_block_container'>
-        <div style='width:0.8rem;height:2.6rem;background:gray;'></div>
+        <span style='width:0.8rem;height:2.6rem;background:gray;'></span>
         <div use='h2_block_text'>#CONTENT</div>
     </div>
 </template>
@@ -147,16 +147,11 @@
         margin-left:0.5rem;
 </flex-module>
 <template id='h3_border'>
-    <div style='width:95%;margin:1.5rem auto 1rem auto;'>
-        <div use='h3_border'>#CONTENT</div>
-        <div style='width:100%;height:0.08rem;background:rgb(210,210,210);border-radius:0.05rem;'></div>
-    </div>
+    <span style='width:95%;margin:1.5rem auto 1rem auto;'>
+        <span style='color: rgb(80,80,80);font-size:1.3em;'>#CONTENT</span>
+        <span style='width:100%;height:0.08rem;background:rgb(210,210,210);border-radius:0.05rem;'></span>
+    </span>
 </template>
-<flex-module id='h3_border'>
-    @css=
-        color: rgb(80,80,80);
-        font-size:1.3em;
-</flex-module>
 <flex-module id='h3'>
     @css=
         color: rgb(80,80,80);
