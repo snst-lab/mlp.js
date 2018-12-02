@@ -6,5 +6,6 @@
         "TABLET": "screen.width / screen.height > 11 / 16 && screen.width / screen.height < 13 / 16",
         "DESKTOP": "screen.width / screen.height >= 13 / 16 "
     },
-    "cookie":"disabled"
+    "sanitize": true,
+    "cookie": false
 }

@@ -1,14 +1,16 @@
+var mlp = mlp || {};
+
+(function () {
 'use strict';
-var mlp = mlp || {}; mlp.modules = [];
+var _mlp = _mlp || {}; _mlp.modules = [];
 
-
-mlp.defineMethods = class {
+_mlp.defineMethods = class {
     constructor() {
         mlp.on = function (triggerEvent) {
             const event = document.createEvent('HTMLEvents');
             event.initEvent(triggerEvent, true, false);
             document.dispatchEvent(event);
-        }
+        };
 
         mlp.loader = function (preloaderId) {
             const doms = document.querySelectorAll('pre-loader');
@@ -18,28 +20,51 @@ mlp.defineMethods = class {
                     preLoader.reload(loader);
                 }
             });
-        }
+        };
 
         mlp.dom = function (cssSelector) {
             return document.querySelector(cssSelector);
-        }
-       
+        };
+
         mlp.doms = function (cssSelector) {
             return document.querySelectorAll(cssSelector);
-        }
+        };
 
-        mlp.uniqueStr = function () {
+        mlp.ajax = function(option) {
+            var xhr = new XMLHttpRequest();
+            if(option.type==='GET'){
+                xhr.open('GET', option.url, option.async);
+                xhr.send();
+                if (xhr.status === 200) return xhr;
+            }
+            else if(option.type==='POST'){
+                return new Promise(function(resolve,reject){
+                    xhr.open('POST', option.url, option.async);
+                    xhr.onreadystatechange = function(){
+                        if(this.readyState === 4 && this.status >= 200 && this.status < 400){
+                            resolve(this);
+                        }else{
+                            reject(this);
+                        }
+                    }
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                    xhr.send(option.data);
+                });
+            }
+        };
+
+        _mlp.uniqueStr = function () {
             const strong = 1000;
             return new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16);
-        }
+        };
 
-        mlp.ready = function (fn) {
+        _mlp.ready = function (fn) {
             if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
                 fn();
             } else {
                 document.addEventListener('DOMContentLoaded', fn);
             }
-        }
+        };
 
         if (!Array.prototype.inArray) {
             Object.defineProperty(Array.prototype, "inArray", {
@@ -90,6 +115,8 @@ mlp.defineMethods = class {
             });
         }
 
+        
+
         if (!HTMLElement.prototype.inview) {
             Object.defineProperty(HTMLElement.prototype, "inview", {
                 configurable: true,
@@ -123,9 +150,9 @@ mlp.defineMethods = class {
                 writable: true,
                 value: function (timeout) {
                     const self = this;
-                    if(timeout===0){
+                    if (timeout === 0) {
                         self.style.display = '';
-                    }else{
+                    } else {
                         const time = timeout || 200;
                         self.style.display = '';
                         self.style.opacity = 0;
@@ -147,9 +174,9 @@ mlp.defineMethods = class {
                 writable: true,
                 value: function (timeout) {
                     const self = this;
-                    if(timeout===0){
+                    if (timeout === 0) {
                         self.style.display = 'none';
-                    }else{
+                    } else {
                         const time = timeout || 200;
                         const self = this;
                         self.style.opacity = 1;
@@ -212,7 +239,7 @@ mlp.defineMethods = class {
                 writable: true,
                 value: function (direction, callback, sensitivity) {
                     const self = this;
-                    const sens = Object.prototype.toString.call(sensitivity) !== '[object Number]' || sensitivity <= 0 ? 5 : sensitivity|0;
+                    const sens = Object.prototype.toString.call(sensitivity) !== '[object Number]' || sensitivity <= 0 ? 5 : sensitivity | 0;
                     switch (direction) {
                         case 'left':
                             self.addEventListener('touchstart', function (event) {
@@ -272,14 +299,110 @@ mlp.defineMethods = class {
         }
     }
 }
-new mlp.defineMethods();
+new _mlp.defineMethods();
+
+
+_mlp.Setting = class {
+    constructor() {
+        _mlp.screen = {};
+        _mlp.targetDOM = [];
+        _mlp.eventList = [];
+        _mlp.animationList = [];
+        _mlp.afterWait = [];
+        _mlp.onTrigger = [];
+        _mlp.atInterval = [];
+        _mlp.attributes = ['clone', 'use', 'for', 'replace', 'flex', 'on', 'wait', 'interval', 'screen'];
+        _mlp.resizeSaver = 0;
+        _mlp.sanitize = true;
+        _mlp.cookie = false;
+        _mlp.Setting.init();
+    }
+    static init() {
+        const setting = JSON.parse(mlp.ajax({ url: 'mlp.json', type: "GET", async: false }).responseText);
+        if (typeof setting['screen'] !== 'undefined') {
+            _mlp.screen = setting['screen'];
+            for (var key in _mlp.screen) {
+                (0, eval)('window.' + key + '=' + setting['screen'][key] + '? true : false;');
+            }
+        }
+        _mlp.targetDOM = [];
+        if (typeof setting['dom'] !== 'undefined') {
+            _mlp.targetDOM = setting['dom'].split(',');
+        }
+        _mlp.eventList = [];
+        if (typeof setting['event'] !== 'undefined') {
+            _mlp.eventList = setting['event'].split(',');
+        }
+        if (typeof setting['sanitize'] !== 'undefined') {
+            _mlp.sanitize = setting['sanitize'];
+        }
+        if (typeof setting['cookie'] !== 'undefined') {
+            _mlp.cookie = setting['cookie'];
+        }
+    }
+}
+new _mlp.Setting();
+
+
+_mlp.secureOverride = class{
+    constructor() {
+        _mlp.secureOverride.init();
+    }
+    static init(){
+        var Submit = HTMLFormElement.prototype.submit;
+        HTMLFormElement.prototype.submit = function(){
+            if(_mlp.sanitize){
+                Object.values(this.elements).forEach(function(e){
+                    e.setAttribute('value',e.getAttribute('value').escapeHTML());
+                });
+            }
+            if(!_mlp.cookie){
+                _mlp.secureOverride.removeCookies();
+            }
+            return  Submit.apply(this);
+        }
+        var XHRSend = XMLHttpRequest.prototype.send;
+        XMLHttpRequest.prototype.send = function(){
+            if(_mlp.sanitize){
+                if(arguments[0] !== null && arguments[0] !== ''){
+                    arguments[0] = String(arguments[0]).escapeHTML();
+                } 
+            }
+            if(!_mlp.cookie){
+                _mlp.secureOverride.removeCookies();
+            }
+            return XHRSend.apply(this, [].slice.call(arguments)); 
+        }
+        if(jQuery){
+            jQuery.ajaxSetup({
+                beforeSend: function(jqXHR, option) {
+                    if(_mlp.sanitize){
+                        option.data = option.data.escapeHTML();
+                    }
+                    if(!_mlp.cookie){
+                        _mlp.secureOverride.removeCookies();
+                    }
+                    return true;
+                }
+            });
+        }
+    }
+    static removeCookies(){
+        document.cookie.split(";").forEach(function(cookie) {
+            const date = new Date();
+            date.setDate(date.getDate() - 1);
+            document.cookie = cookie.trim().replace(/=.*/, "=;expires=" + date.toUTCString() + "/");
+        });
+    }
+}
+new _mlp.secureOverride();
 
 
 class flexModule extends HTMLElement {
     constructor() {
         super();
         if (this.getAttribute('id') !== null) {
-            mlp.modules.push({ 'id': this.getAttribute('id'), 'code': this.innerHTML });
+            _mlp.modules.push({ 'id': this.getAttribute('id'), 'code': this.innerHTML });
             (0, eval)('var ' + this.getAttribute('id') + '=' + this.getAttribute('id') + '||{};');
             this.parentNode.removeChild(this);
         }
@@ -292,20 +415,18 @@ class importFile extends HTMLElement {
     constructor() {
         super();
         const self = this;
-        const async = self.getAttribute('async')!==null ? true : false;
+        const async = self.getAttribute('async') !== null ? true : false;
         const xhr = new XMLHttpRequest();
-        xhr.open("GET", this.textContent,async); //true : async
+        xhr.open("GET", this.textContent, async); //true : async
         xhr.onload = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    importFile.expand(self, xhr);
-                } else {
-                    console.log(self.textContent + ' is not found.');
-                }
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                importFile.expand(self, xhr);
+            } else {
+                console.log(self.textContent + ' is not found.');
             }
         };
         xhr.onerror = function () {
-            console.log('Failed to import '+self.textContent);
+            console.log('Failed to import ' + self.textContent);
         };
         xhr.send(null);
     }
@@ -338,28 +459,28 @@ customElements.define('import-file', importFile);
 class preLoader extends HTMLElement {
     constructor() {
         super();
-        const loader = this ;
+        const loader = this;
         const source = loader.textContent;
-        loader.setAttribute('src',source);
+        loader.setAttribute('src', source);
         loader.textContent = '';
-        const div= document.createElement('div');
+        const div = document.createElement('div');
         loader.appendChild(div);
-        preLoader.onload(loader,div);
+        preLoader.onload(loader, div);
     }
-    static onload(loader,div){
+    static onload(loader, div) {
         div.style.display = 'none';
         const source = loader.getAttribute('src');
-        preLoader.readHTML(loader,source,div);
-        preLoader.readImage(loader,source,div);
+        preLoader.readHTML(loader, source, div);
+        preLoader.readImage(loader, source, div);
         if (loader.getAttribute('id') === null || loader.getAttribute('id') === 'onload') {
-            preLoader.show(loader,div);
+            preLoader.show(loader, div);
         }
     }
-    static reload(loader){
+    static reload(loader) {
         const div = loader.children[0];
-        preLoader.show(loader,div);
+        preLoader.show(loader, div);
     }
-    static readHTML(loader,source, div){
+    static readHTML(loader, source, div) {
         if (source.match('.html')) {
             const xhr = new XMLHttpRequest();
             xhr.open("GET", source, false); //true : async
@@ -372,8 +493,8 @@ class preLoader extends HTMLElement {
             }
         }
     }
-    static readImage(loader,source,div){
-        if(source.match(/\.(gif|jpg|jpeg|png)/)) {
+    static readImage(loader, source, div) {
+        if (source.match(/\.(gif|jpg|jpeg|png)/)) {
             const img = document.createElement('img');
             img.style = "position:fixed;top:0;left:0;bottom:0;right:0;margin:auto;z-index:102;";
             img.src = source;
@@ -381,77 +502,26 @@ class preLoader extends HTMLElement {
             div.style.display = 'none';
         }
     }
-    static show(loader,div){
-        const fadein =  loader.getAttribute('fadein') || 0;
-        const timeout =  loader.getAttribute('timeout') || 2000;
-        const fadeout =  loader.getAttribute('fadeout') || 200;
-        div.setAttribute('style', 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:101;display:none;background:'+( loader.getAttribute('background') || "white"));
+    static show(loader, div) {
+        const fadein = loader.getAttribute('fadein') || 0;
+        const timeout = loader.getAttribute('timeout') || 2000;
+        const fadeout = loader.getAttribute('fadeout') || 200;
+        div.setAttribute('style', 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:101;display:none;background:' + (loader.getAttribute('background') || "white"));
         div.fadeIn(fadein);
-        setTimeout(function () { 
+        setTimeout(function () {
             div.fadeOut(fadeout);
-        },+fadein+timeout);
+        }, +fadein + timeout);
     }
 }
 customElements.define('pre-loader', preLoader);
 
 
-mlp.Setting = class {
-    constructor() {
-        mlp.screen = {};
-        mlp.targetDOM = [];
-        mlp.eventList = [];
-        mlp.animationList = [];
-        mlp.afterWait = [];
-        mlp.onTrigger = [];
-        mlp.atInterval = [];
-        mlp.attributes = ['clone', 'use', 'for', 'replace', 'flex', 'on', 'wait', 'interval', 'screen'];
-        mlp.resizeSaver = 0;
-        mlp.Setting.init();
-    }
-    static init() {
-        const setting = JSON.parse(mlp.Setting.ajax({ url: 'mlp.json', type: "GET", async: false }).responseText);
-        if (typeof setting['screen'] !== 'undefined') {
-            mlp.screen = setting['screen'];
-            for (var key in mlp.screen) {
-                (0, eval)('window.' + key + '=' + setting['screen'][key] + '? true : false;');
-            }
-        }
-        mlp.targetDOM = [];
-        if (typeof setting['dom'] !== 'undefined') {
-            mlp.targetDOM = setting['dom'].split(',');
-        }
-        mlp.eventList = [];
-        if (typeof setting['event'] !== 'undefined') {
-            mlp.eventList = setting['event'].split(',');
-        }
-    }
-    static ajax(option){
-        const xhr = new XMLHttpRequest();
-        switch(option.type){
-            case 'GET':
-                xhr.open('GET', option.url, option.async);
-                xhr.send();
-                if (xhr.status >= 200 && xhr.status < 400) {
-                    return xhr;
-                }
-                break;
-            case 'POST':
-                request.open('POST', option.url, option.async);
-                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-                request.send(option.data);
-                break;
-        }
-    }
-}
-new mlp.Setting();
-
-
-mlp.Clone = class {
+_mlp.Clone = class {
     constructor(self) {
         const attr = self.getAttribute('clone');
         if (attr !== null) {
             self.removeAttribute('clone');
-            mlp.Clone.template(self, attr);
+            _mlp.Clone.template(self, attr);
         }
     }
 
@@ -463,19 +533,19 @@ mlp.Clone = class {
 }
 
 
-mlp.Operator = class {
-    constructor(self){
-        if(self.childNodes.length===1 && Object.prototype.toString.call(self.childNodes[0])==='[object Text]'){
-            if(self.getAttribute('for')===null){
-                self.outerHTML = mlp.Operator.readScript(self.outerHTML);
+_mlp.Operator = class {
+    constructor(self) {
+        if (self.childNodes.length === 1 && Object.prototype.toString.call(self.childNodes[0]) === '[object Text]') {
+            if (self.getAttribute('for') === null) {
+                self.outerHTML = _mlp.Operator.readScript(self.outerHTML);
             }
         }
     }
-    static readScript(string){
+    static readScript(string) {
         if (string.match('{{') && string.match('}}')) {
-            return  mlp.Operator.parse(string);
+            return _mlp.Operator.parse(string);
         } else {
-            return  string;
+            return string;
         }
     }
     static parse(string) {
@@ -483,11 +553,12 @@ mlp.Operator = class {
         var after = '';
 
         while (true) {
-            const scriptStart = str.indexOf('{{', 0); 
+            const scriptStart = str.indexOf('{{', 0);
             if (scriptStart < 0) { after = after + str; break };
             const scriptEnd = str.indexOf('}}', scriptStart);
             const text = str.slice(0, scriptStart);
-            const script = str.slice(scriptStart + 2, scriptEnd).replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
+            const script = str.slice(scriptStart + 2, scriptEnd);
+            // const script = str.slice(scriptStart + 2, scriptEnd).replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
             str = str.slice(scriptEnd + 2);
             after += text + String((0, eval)(script));
         }
@@ -496,23 +567,24 @@ mlp.Operator = class {
 }
 
 
-mlp.For = class {
+_mlp.For = class {
     constructor(self) {
         const attr = self.getAttribute('for');
         if (attr !== null) {
-            const data = mlp.For.parse(attr);
-            mlp.For.expand(self, data);
+            const data = _mlp.For.parse(attr);
+            _mlp.For.expand(self, data);
         }
     }
 
     static parse(attribute) {
         var data = [];
-        var attr = attribute.replace(/(\s+)|(\t+)|(\r?\n)/g, "").split(';');
+        var attr = attribute.split(';');
+        // var attr = attribute.replace(/(\s+)|(\t+)|(\r?\n)/g, "").split(';');
         attr = attr.filter(function (e) { return e !== ""; });
 
         attr.forEach(function (element) {
             var el = element.split(':');
-            data.push({ 'dst': el[0], 'src': mlp.For.parseSrc(el[1]) });
+            data.push({ 'dst': el[0], 'src': _mlp.For.parseSrc(el[1]) });
         });
         return data;
     }
@@ -530,7 +602,7 @@ mlp.For = class {
                 const b = a[1].split('/');
                 end = +b[0];
                 step = +b[1];
-            }else{
+            } else {
                 end = +end;
             }
             var arr = [];
@@ -551,7 +623,8 @@ mlp.For = class {
             }
         }
         else if (!src.match(',') && !src.match('->') && !src.match('/')) {
-            return src.replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
+            return src;
+            // return src.replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
         }
     }
 
@@ -577,21 +650,21 @@ mlp.For = class {
             }
             master = fragment;
         });
-        master = mlp.Operator.readScript(master.unescapeHTML());
+        master = _mlp.Operator.readScript(master.unescapeHTML());
         self.insertAdjacentHTML('afterend', master);
         self.style.display = 'none';
     }
 }
 
 
-mlp.ForAfterWait = class {
+_mlp.ForAfterWait = class {
     constructor(self, wait) {
         const attr = self.getAttribute('for');
         if (attr !== null) {
-            const data = mlp.For.parse(attr);
-            mlp.ForAfterWait.expand(self, data, wait);
+            const data = _mlp.For.parse(attr);
+            _mlp.ForAfterWait.expand(self, data, wait);
         } else {
-            mlp.ForAfterWait.clone(self, wait);
+            _mlp.ForAfterWait.clone(self, wait);
         }
     }
 
@@ -613,11 +686,11 @@ mlp.ForAfterWait = class {
                     else if (!master.match('::') && element.src instanceof Array) {
                         fragment = master.replace(new RegExp('#' + element.dst, 'g'), element.src[i]);
                     }
-                    mlp.ForAfterWait.convertToDom(self, fragment, wait);
+                    _mlp.ForAfterWait.convertToDom(self, fragment, wait);
                 });
             } else {
                 master = master.replace(new RegExp('#' + element.dst, 'g'), element.src);
-                mlp.ForAfterWait.convertToDom(self, master, wait);
+                _mlp.ForAfterWait.convertToDom(self, master, wait);
             }
         });
     }
@@ -625,30 +698,30 @@ mlp.ForAfterWait = class {
     static clone(self, wait) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
-        mlp.ForAfterWait.convertToDom(self, master, wait);
+        _mlp.ForAfterWait.convertToDom(self, master, wait);
     }
 
     static convertToDom(self, string, wait) {
-        string = mlp.Operator.readScript(string.unescapeHTML());
+        string = _mlp.Operator.readScript(string.unescapeHTML());
         const dom = string.toDom();
         self.parentNode.insertBefore(dom, self); // new dom insert after reference node
         dom.removeAttribute('wait');
         dom.classList.add('afterwait_' + wait);
         dom.style.display = '';
-        new mlp.FlexOnlyEvent(dom);
-        new mlp.Replace(dom);
+        new _mlp.FlexOnlyEvent(dom);
+        new _mlp.Replace(dom);
     }
 }
 
 
-mlp.ForOnTrigger = class {
+_mlp.ForOnTrigger = class {
     constructor(self, on) {
         const attr = self.getAttribute('for');
         if (attr !== null) {
-            const data = mlp.For.parse(attr);
-            mlp.ForOnTrigger.expand(self, data, on);
+            const data = _mlp.For.parse(attr);
+            _mlp.ForOnTrigger.expand(self, data, on);
         } else {
-            mlp.ForOnTrigger.clone(self, on);
+            _mlp.ForOnTrigger.clone(self, on);
         }
     }
 
@@ -670,11 +743,11 @@ mlp.ForOnTrigger = class {
                     else if (!master.match('::') && element.src instanceof Array) {
                         fragment = master.replace(new RegExp('#' + element.dst, 'g'), element.src[i]);
                     }
-                    mlp.ForOnTrigger.convertToDom(self, fragment, on);
+                    _mlp.ForOnTrigger.convertToDom(self, fragment, on);
                 });
             } else {
                 master = master.replace(new RegExp('#' + element.dst, 'g'), element.src);
-                mlp.ForOnTrigger.convertToDom(self, master, on);
+                _mlp.ForOnTrigger.convertToDom(self, master, on);
             }
         });
     }
@@ -682,30 +755,30 @@ mlp.ForOnTrigger = class {
     static clone(self, on) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
-        mlp.ForOnTrigger.convertToDom(self, master, on);
+        _mlp.ForOnTrigger.convertToDom(self, master, on);
     }
 
     static convertToDom(self, string, on) {
-        string = mlp.Operator.readScript(string.unescapeHTML());
+        string = _mlp.Operator.readScript(string.unescapeHTML());
         const dom = string.toDom();
         self.parentNode.insertBefore(dom, self); // new dom insert after reference node
         dom.removeAttribute('on');
         dom.classList.add('ontrigger_' + on);
         dom.style.display = '';
-        new mlp.FlexOnlyEvent(dom);
-        new mlp.Replace(dom);
+        new _mlp.FlexOnlyEvent(dom);
+        new _mlp.Replace(dom);
     }
 }
 
 
-mlp.ForAtInterval = class {
+_mlp.ForAtInterval = class {
     constructor(self, interval) {
         const attr = self.getAttribute('for');
         if (attr !== null) {
-            const data = mlp.For.parse(attr);
-            mlp.ForAtInterval.expand(self, data, interval);
+            const data = _mlp.For.parse(attr);
+            _mlp.ForAtInterval.expand(self, data, interval);
         } else {
-            mlp.ForAtInterval.clone(self, interval);
+            _mlp.ForAtInterval.clone(self, interval);
         }
     }
 
@@ -727,11 +800,11 @@ mlp.ForAtInterval = class {
                     else if (!master.match('::') && element.src instanceof Array) {
                         fragment = master.replace(new RegExp('#' + element.dst, 'g'), element.src[i]);
                     }
-                    mlp.ForAtInterval.convertToDom(self, fragment, interval);
+                    _mlp.ForAtInterval.convertToDom(self, fragment, interval);
                 });
             } else {
                 master = master.replace(new RegExp('#' + element.dst, 'g'), element.src);
-                mlp.ForAtInterval.convertToDom(self, master, interval);
+                _mlp.ForAtInterval.convertToDom(self, master, interval);
             }
         });
     }
@@ -739,27 +812,27 @@ mlp.ForAtInterval = class {
     static clone(self, interval) {
         var master = String(self.outerHTML);
         self.style.display = 'none';
-        mlp.ForAtInterval.convertToDom(self, master, interval);
+        _mlp.ForAtInterval.convertToDom(self, master, interval);
     }
 
     static convertToDom(self, string, interval) {
-        string = mlp.Operator.readScript(string.unescapeHTML());
+        string = _mlp.Operator.readScript(string.unescapeHTML());
         const dom = string.toDom();
         self.parentNode.insertBefore(dom, self); // new dom insert after reference node
         dom.removeAttribute('interval');
         dom.classList.add('atinterval_' + interval);
         dom.style.display = '';
-        new mlp.FlexOnlyEvent(dom);
-        new mlp.Replace(dom);
+        new _mlp.FlexOnlyEvent(dom);
+        new _mlp.Replace(dom);
     }
 }
 
 
-mlp.Replace = class {
+_mlp.Replace = class {
     constructor(self) {
         const attr = self.getAttribute('replace');
         if (attr !== null) {
-            mlp.Replace.execute(self, mlp.Replace.parse(attr));
+            _mlp.Replace.execute(self, _mlp.Replace.parse(attr));
             self.removeAttribute('replace');
         }
     }
@@ -789,17 +862,17 @@ mlp.Replace = class {
 }
 
 
-mlp.Use = class {
+_mlp.Use = class {
     constructor(self) {
         const attr = self.getAttribute('use');
         if (attr !== null) {
-            mlp.Use.expand(self, attr);
+            _mlp.Use.expand(self, attr);
             self.removeAttribute('use');
         }
     }
 
     static expand(self, moduleId) {
-        for (var mod of mlp.modules) {
+        for (var mod of _mlp.modules) {
             if (mod.id === moduleId) {
                 const codeByUse = mod.code;
                 const codeByFlex = self.getAttribute('flex') !== null ? self.getAttribute('flex') : '';
@@ -811,11 +884,11 @@ mlp.Use = class {
 }
 
 
-mlp.Flex = class {
+_mlp.Flex = class {
     constructor(self) {
         const attr = self.getAttribute('flex');
         if (attr !== null) {
-            mlp.Flex.readModule(self, attr);
+            _mlp.Flex.readModule(self, attr);
             self.removeAttribute('flex');
         }
     }
@@ -859,15 +932,15 @@ mlp.Flex = class {
     }
 
     static readModule(self, code) {
-        const mod = mlp.Flex.parseModule(code);
-        const className = 'c' + mlp.uniqueStr();
+        const mod = _mlp.Flex.parseModule(code);
+        const className = 'c' + _mlp.uniqueStr();
         self.classList.add(className);
-        mlp.Flex.setCSS(self, mod, className);
-        mlp.Flex.setEvent(self, mod, className);
+        _mlp.Flex.setCSS(self, mod, className);
+        _mlp.Flex.setEvent(self, mod, className);
     }
 
     static setCSS(self, mod, className) {
-        const styleTag = document.getElementById('mlp-style-master');
+        const styleTag = document.getElementById('_mlp-style-master');
 
         Object.keys(mod).forEach(function (key) {
             if (key === 'css') {
@@ -896,10 +969,10 @@ mlp.Flex = class {
             }
             if (key.startsWith('keyframes ')) {
                 const animationName = key.replace('keyframes ', '').replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
-                if (!mlp.animationList.inArray(animationName)) {
+                if (!_mlp.animationList.inArray(animationName)) {
                     const rule = document.createTextNode('@' + key + '{' + mod[key] + '}');
                     styleTag.appendChild(rule);
-                    mlp.animationList.push(animationName);
+                    _mlp.animationList.push(animationName);
                 }
             }
         });
@@ -916,7 +989,8 @@ mlp.Flex = class {
                 });
             }
             if (key === 'text') {
-                self.textContent = mod[key].replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)/g, "");
+                self.textContent = mod[key];
+                // self.textContent = mod[key].replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)/g, "");
             }
             if (key === 'script') {
                 if (document.getElementById('script_' + mod.id) === null) {
@@ -927,7 +1001,7 @@ mlp.Flex = class {
                 }
             }
             if (key === 'onload') {
-                mlp.ready(function () {
+                _mlp.ready(function () {
                     (0, eval)(mod[key].replace(/THIS/g, selector).unescapeHTML());
                 });
             }
@@ -947,7 +1021,7 @@ mlp.Flex = class {
                 }
             }
             if (key === 'show') {
-                if(MutationObserver){
+                if (MutationObserver) {
                     var observer = new MutationObserver(function (mutations) {
                         mutations.forEach(function (mutation) {
                             if (String(mutation.oldValue).match('display: none;') && mutation.target.style.display !== "none") {
@@ -959,7 +1033,7 @@ mlp.Flex = class {
                 }
             }
             if (key === 'hide') {
-                if(MutationObserver){
+                if (MutationObserver) {
                     var observer = new MutationObserver(function (mutations) {
                         mutations.forEach(function (mutation) {
                             if (!String(mutation.oldValue).match('display: none;') && mutation.target.style.display === "none") {
@@ -971,8 +1045,8 @@ mlp.Flex = class {
                 }
             }
             if (key === 'switch') {
-                const switchObj = mlp.Flex.parseSwitch(mod[key]);
-                const variable = mlp.uniqueStr();
+                const switchObj = _mlp.Flex.parseSwitch(mod[key]);
+                const variable = _mlp.uniqueStr();
                 (0, eval)('window.s' + variable + '=1;');
                 self.addEventListener('click', function () {
                     const idx = (0, eval)('window.s' + variable);
@@ -994,29 +1068,29 @@ mlp.Flex = class {
                 const holdtime = key.replace('hold ', '').replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
                 self.hold(function () {
                     (0, eval)(mod[key].replace(/THIS/g, selector).unescapeHTML());
-                }, holdtime|0 || 1000);
+                }, holdtime | 0 || 1000);
             }
             if (key.startsWith('inview')) {
                 const threshold = key.replace('inview ', '').replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
                 self.inview(function (e) {
                     (0, eval)(mod[key].replace(/THIS/g, selector).unescapeHTML());
-                }, null, threshold|0 || 0.5);
+                }, null, threshold | 0 || 0.5);
             }
             if (key.startsWith('outview')) {
                 const threshold = key.replace('outview ', '').replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
                 self.inview(null, function (e) {
                     (0, eval)(mod[key].replace(/THIS/g, selector).unescapeHTML());
-                }, threshold|0 || 0.5);
+                }, threshold | 0 || 0.5);
             }
             if (key.startsWith('interval')) {
                 const interval = key.replace('interval ', '').replace(/(^\s+)|(\s+$)|(^\t+)|(\t+$)|(\r?\n)/g, "");
                 setInterval(function () {
                     (0, eval)(mod[key].replace(/THIS/g, selector).unescapeHTML());
-                }, interval|0 || 1000);
+                }, interval | 0 || 1000);
             }
         });
 
-        mlp.eventList.forEach(function (event) {
+        _mlp.eventList.forEach(function (event) {
             if (typeof mod[event] !== 'undefined') {
                 self.addEventListener(event, function () {
                     (0, eval)(mod[event].replace(/THIS/g, selector).unescapeHTML());
@@ -1027,50 +1101,50 @@ mlp.Flex = class {
 }
 
 
-mlp.FlexOnlyCSS = class {
+_mlp.FlexOnlyCSS = class {
     constructor(self) {
         const attr = self.getAttribute('flex');
         if (attr !== null) {
-            mlp.Flex.readModule(self, attr);
+            _mlp.Flex.readModule(self, attr);
         }
     }
 
     static readModule(self, code) {
-        const mod = mlp.Flex.parseModule(code);
-        const className = 'c' + mlp.uniqueStr();
+        const mod = _mlp.Flex.parseModule(code);
+        const className = 'c' + _mlp.uniqueStr();
         self.classList.add(className);
-        mlp.Flex.setCSS(self, mod, className);
+        _mlp.Flex.setCSS(self, mod, className);
     }
 }
 
 
-mlp.FlexOnlyEvent = class {
+_mlp.FlexOnlyEvent = class {
     constructor(self) {
         const attr = self.getAttribute('flex');
         if (attr !== null) {
-            mlp.Flex.readModule(self, attr);
+            _mlp.Flex.readModule(self, attr);
             self.removeAttribute('flex');
         }
     }
 
     static readModule(self, code) {
-        const mod = mlp.Flex.parseModule(code);
-        const className = 'c' + mlp.uniqueStr();
+        const mod = _mlp.Flex.parseModule(code);
+        const className = 'c' + _mlp.uniqueStr();
         self.classList.add(className);
-        mlp.Flex.setEvent(self, mod, className);
+        _mlp.Flex.setEvent(self, mod, className);
     }
 }
 
 
-mlp.Screen = class {
+_mlp.Screen = class {
     constructor() {
-        if (typeof mlp.screen !== 'undefined') {
-            mlp.Screen.readProperty();
+        if (typeof _mlp.screen !== 'undefined') {
+            _mlp.Screen.readProperty();
             const fn = function () {
-                if (mlp.resizeSaver) return;
-                mlp.resizeSaver = setTimeout(function () {
-                    mlp.resizeSaver = 0;
-                    mlp.Screen.readProperty();
+                if (_mlp.resizeSaver) return;
+                _mlp.resizeSaver = setTimeout(function () {
+                    _mlp.resizeSaver = 0;
+                    _mlp.Screen.readProperty();
                 }, 500);
             }
             window.addEventListener('resize', fn);
@@ -1079,10 +1153,10 @@ mlp.Screen = class {
     }
 
     static readProperty() {
-        for (var key in mlp.screen) {
-            (0, eval)('window.' + key + '=' + mlp.screen[key] + '? true : false;');
+        for (var key in _mlp.screen) {
+            (0, eval)('window.' + key + '=' + _mlp.screen[key] + '? true : false;');
         }
-        mlp.targetDOM.forEach(function (dom) {
+        _mlp.targetDOM.forEach(function (dom) {
             const doms = document.querySelectorAll(dom);
             Object.keys(doms).forEach(function (index) {
                 const self = doms[index];
@@ -1091,8 +1165,9 @@ mlp.Screen = class {
                     self.style.display = 'none';
                     const screenPropertyArray = screenProperty.split(',');
                     screenPropertyArray.forEach(function (property) {
-                        const prop = property.replace(/(\s+)|(\t+)|(\r?\n)/g, "");
-                        Object.keys(mlp.screen).forEach(function (key) {
+                        const prop = property;
+                        // const prop = property.replace(/(\s+)|(\t+)|(\r?\n)/g, "");
+                        Object.keys(_mlp.screen).forEach(function (key) {
                             if (prop === key && (0, eval)(key)) {
                                 self.fadeIn(200);
                             }
@@ -1105,23 +1180,23 @@ mlp.Screen = class {
 }
 
 
-mlp.Main = class {
+_mlp.Main = class {
     constructor() {
-        mlp.Main.createStyleTag();
-        mlp.Main.generateDOM(mlp.Clone);
-        mlp.Main.generateDOM(mlp.Use);
-        mlp.Main.generateDOM(mlp.For);
-        mlp.Main.generateDOM(mlp.Replace);
-        mlp.Main.generateDOM(mlp.Flex);
-        mlp.Main.afterWait();
-        mlp.Main.onTrigger();
-        mlp.Main.atInterval();
-        new mlp.Screen();
+        _mlp.Main.createStyleTag();
+        _mlp.Main.generateDOM(_mlp.Clone);
+        _mlp.Main.generateDOM(_mlp.Use);
+        _mlp.Main.generateDOM(_mlp.For);
+        _mlp.Main.generateDOM(_mlp.Replace);
+        _mlp.Main.generateDOM(_mlp.Flex);
+        _mlp.Main.afterWait();
+        _mlp.Main.onTrigger();
+        _mlp.Main.atInterval();
+        new _mlp.Screen();
     }
 
     static createStyleTag() {
         const style = document.createElement('style');
-        style.id = 'mlp-style-master';
+        style.id = '_mlp-style-master';
         style.type = 'text/css';
         style.rel = 'stylesheet';
         const head = document.querySelector('head');
@@ -1129,68 +1204,68 @@ mlp.Main = class {
     }
 
     static generateDOM(Class) {
-        mlp.targetDOM.forEach(function (dom) {
+        _mlp.targetDOM.forEach(function (dom) {
             const doms = document.querySelectorAll(dom);
             Object.keys(doms).forEach(function (index) {
                 const self = doms[index];
                 const wait = self.getAttribute('wait');
                 const on = self.getAttribute('on');
                 const interval = self.getAttribute('interval');
-               
+
                 if (wait !== null && on === null && interval === null) {
-                    if (Class === mlp.For) {
+                    if (Class === _mlp.For) {
                         self.style.display = 'none';
-                        if (!mlp.afterWait.inArray(wait)) {
-                            mlp.afterWait.push(wait);
+                        if (!_mlp.afterWait.inArray(wait)) {
+                            _mlp.afterWait.push(wait);
                         }
-                    } else if (Class === mlp.Replace) {
+                    } else if (Class === _mlp.Replace) {
                         return false;
 
-                    } else if (Class === mlp.Flex) {
-                        new mlp.FlexOnlyCSS(self);
+                    } else if (Class === _mlp.Flex) {
+                        new _mlp.FlexOnlyCSS(self);
 
                     } else {
                         new Class(self);
                     }
                 } else if (wait === null && on !== null && interval === null) {
-                    if (Class === mlp.For) {
+                    if (Class === _mlp.For) {
                         self.style.display = 'none';
-                        if (!mlp.onTrigger.inArray(on)) {
-                            mlp.onTrigger.push(on);
+                        if (!_mlp.onTrigger.inArray(on)) {
+                            _mlp.onTrigger.push(on);
                         }
-                    } else if (Class === mlp.Replace) {
+                    } else if (Class === _mlp.Replace) {
                         return false;
 
-                    } else if (Class === mlp.Flex) {
-                        new mlp.FlexOnlyCSS(self);
+                    } else if (Class === _mlp.Flex) {
+                        new _mlp.FlexOnlyCSS(self);
 
                     } else {
                         new Class(self);
                     }
                 } else if (wait === null && on === null && interval !== null) {
-                    if (Class === mlp.For) {
+                    if (Class === _mlp.For) {
                         self.style.display = 'none';
-                        if (!mlp.atInterval.inArray(interval)) {
-                            mlp.atInterval.push(interval);
+                        if (!_mlp.atInterval.inArray(interval)) {
+                            _mlp.atInterval.push(interval);
                         }
-                    } else if (Class === mlp.Replace) {
+                    } else if (Class === _mlp.Replace) {
                         return false;
 
-                    } else if (Class === mlp.Flex) {
-                        new mlp.FlexOnlyCSS(self);
+                    } else if (Class === _mlp.Flex) {
+                        new _mlp.FlexOnlyCSS(self);
 
                     } else {
                         new Class(self);
                     }
                 } else {
-                   new Class(self);
+                    new Class(self);
                 }
             });
         });
     }
 
     static afterWait() {
-        mlp.afterWait.forEach(function (variable) {
+        _mlp.afterWait.forEach(function (variable) {
             Object.defineProperty(window, variable, {
                 val: undefined,
                 get: function () { return this.val; },
@@ -1200,12 +1275,12 @@ mlp.Main = class {
                     oldDOM.forEach(function (dom) {
                         dom.parentNode.removeChild(dom);
                     });
-                    mlp.targetDOM.forEach(function (dom) {
+                    _mlp.targetDOM.forEach(function (dom) {
                         const doms = document.querySelectorAll(dom);
                         Object.keys(doms).forEach(function (index) {
                             const self = doms[index];
                             if (self.getAttribute('wait') === variable) {
-                                new mlp.ForAfterWait(self, variable);
+                                new _mlp.ForAfterWait(self, variable);
                             }
                         });
                     });
@@ -1216,18 +1291,18 @@ mlp.Main = class {
     }
 
     static onTrigger() {
-        mlp.onTrigger.forEach(function (on) {
+        _mlp.onTrigger.forEach(function (on) {
             document.addEventListener(on, function () {
                 const oldDOM = document.querySelectorAll('.ontrigger_' + on);
                 oldDOM.forEach(function (dom) {
                     dom.parentNode.removeChild(dom);
                 });
-                mlp.targetDOM.forEach(function (dom) {
+                _mlp.targetDOM.forEach(function (dom) {
                     const doms = document.querySelectorAll(dom);
                     Object.keys(doms).forEach(function (index) {
                         const self = doms[index];
                         if (self.getAttribute('on') === on) {
-                            new mlp.ForOnTrigger(self, on);
+                            new _mlp.ForOnTrigger(self, on);
                         }
                     });
                 });
@@ -1236,18 +1311,18 @@ mlp.Main = class {
     }
 
     static atInterval() {
-        mlp.atInterval.forEach(function (interval) {
+        _mlp.atInterval.forEach(function (interval) {
             setInterval(function () {
                 const oldDOM = document.querySelectorAll('.atinterval_' + interval);
                 oldDOM.forEach(function (dom) {
                     dom.parentNode.removeChild(dom);
                 });
-                mlp.targetDOM.forEach(function (dom) {
+                _mlp.targetDOM.forEach(function (dom) {
                     const doms = document.querySelectorAll(dom);
                     Object.keys(doms).forEach(function (index) {
                         const self = doms[index];
                         if (self.getAttribute('wait') === null && self.getAttribute('interval') === interval) {
-                            new mlp.ForAtInterval(self, interval);
+                            new _mlp.ForAtInterval(self, interval);
                         }
                     });
                 });
@@ -1257,14 +1332,15 @@ mlp.Main = class {
 }
 
 
-mlp.init = function () {
-    return new Promise(function(resolve,reject){
+_mlp.init = function () {
+    return new Promise(function (resolve, reject) {
         // document.addEventListener('DOMContentLoaded', function () {
-            const body = document.querySelector('body');
-            body.style.display = '';
-            new mlp.Main();
-            resolve();
+        const body = document.querySelector('body');
+        body.style.display = '';
+        new _mlp.Main();
+        resolve();
         // }, false);
     });
 }
-mlp.init().then(function(){mlp.on('load');});
+_mlp.init().then(function () { mlp.on('load'); });
+})(); 
