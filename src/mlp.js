@@ -1145,7 +1145,7 @@ _mlp.Screen = class {
                 _mlp.resizeSaver = setTimeout(function () {
                     _mlp.resizeSaver = 0;
                     _mlp.Screen.readProperty();
-                }, 500);
+                }, 800);
             }
             window.addEventListener('resize', fn);
             window.addEventListener('orientationchange', fn);
@@ -1169,7 +1169,7 @@ _mlp.Screen = class {
                         // const prop = property.replace(/(\s+)|(\t+)|(\r?\n)/g, "");
                         Object.keys(_mlp.screen).forEach(function (key) {
                             if (prop === key && (0, eval)(key)) {
-                                self.fadeIn(200);
+                                self.style.display = '';
                             }
                         });
                     })
