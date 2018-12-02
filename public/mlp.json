@@ -1,5 +1,5 @@
 {
-    "dom":"div,span,input,img,svg,i,pre,code",
+    "dom":"div,img,svg,code",
     "event":"click,focus,blur,change,mouseenter,mouseleave,touchstart,touchend,keyup,scroll",
     "screen":{
         "MOBILE": "screen.width / screen.height <= 11 / 16",
