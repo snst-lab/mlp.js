@@ -1300,12 +1300,12 @@ _mlp.Main = class {
 
 _mlp.init = function () {
     return new Promise(function (resolve, reject) {
-        document.addEventListener('DOMContentLoaded', function () {
+        // document.addEventListener('DOMContentLoaded', function () {
             const body = document.querySelector('body');
             body.style.display = '';
             new _mlp.Main();
             resolve();
-        }, false);
+        // }, false);
     });
 }
 _mlp.init().then(function () { mlp.on('load'); });
