@@ -157,11 +157,11 @@ _mlp.defineMethods = class {
                         self.style.display = '';
                         self.style.opacity = 0;
                         const interval = setInterval(function () {
-                            self.style.opacity = +self.style.opacity + 0.01;
+                            self.style.opacity = +self.style.opacity + 0.05;
                             if (self.style.opacity >= 1) {
                                 clearInterval(interval);
                             }
-                        }, time * 0.01);
+                        }, time * 0.05);
                     }
                 }
             });
@@ -181,12 +181,12 @@ _mlp.defineMethods = class {
                         const self = this;
                         self.style.opacity = 1;
                         const interval = setInterval(function () {
-                            self.style.opacity = +self.style.opacity - 0.01;
+                            self.style.opacity = +self.style.opacity - 0.05;
                             if (self.style.opacity <= 0) {
                                 clearInterval(interval);
                                 self.style.display = 'none';
                             }
-                        }, time * 0.01);
+                        }, time * 0.05);
                     }
                 }
             });
