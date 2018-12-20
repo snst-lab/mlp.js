@@ -1,3 +1,12 @@
+/*!
+ * mlp.js
+ * This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.
+ *
+ * Copyright (c) 2018 TANUSUKE
+ * Released under the LGPL license.
+ * see https://www.gnu.org/licenses/lgpl-3.0.html 
+ *
+ */
 var mlp = mlp || {};
 
 (function () {
