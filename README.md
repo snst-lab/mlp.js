@@ -29,5 +29,5 @@ Operation confirmed in the following browser.
 
 
 ## Developer
-[TANUSUKE](https://github.com/snst-lab)  
+[TANUSUKE](https://pragma-curry.com/)  
 
