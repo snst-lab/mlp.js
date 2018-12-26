@@ -1,3 +1,6 @@
+#Ignore aws directory
+/aws/*
+
 #Ignore archive directory
 /archive/*
 
