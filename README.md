@@ -6,7 +6,7 @@ This is an HTML parser that extends HTML syntax and makes your Front-end web dev
 
 ## Usage
 Demo and detailed usage are introduced on the demo site.
-Visit [DEMO SITE (https://snst-lab.github.io/mlp.js/public/)](https://snst-lab.github.io/mlp.js/public/) 
+Visit [DEMO SITE (http://ec2-3-16-214-161.us-east-2.compute.amazonaws.com/)](http://ec2-3-16-214-161.us-east-2.compute.amazonaws.com/) 
  
 
 ## Install
