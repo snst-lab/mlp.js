@@ -5,8 +5,8 @@
   "main": "index.js",
   "eslintConfig": {
     "env": {
-        "browser": true,
-        "node": true
+      "browser": true,
+      "node": true
     }
   },
   "eslintIgnore": [],
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/snst-lab/mlp.js/issues"
   },
-  "homepage": "https://github.com/snst-lab/mlp.js#readme"
+  "homepage": "https://github.com/snst-lab/mlp.js#readme",
+  "devDependencies": {
+    "eslint": "^5.11.1"
+  }
 }
