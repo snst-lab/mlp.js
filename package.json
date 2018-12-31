@@ -1,0 +1,27 @@
+{
+  "name": "mlp.js",
+  "version": "1.0.0",
+  "description": "mlp.js\r ====\r This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.",
+  "main": "index.js",
+  "eslintConfig": {
+    "env": {
+        "browser": true,
+        "node": true
+    }
+  },
+  "eslintIgnore": [],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src/mlp.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snst-lab/mlp.js.git"
+  },
+  "author": "Tanusuke",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/snst-lab/mlp.js/issues"
+  },
+  "homepage": "https://github.com/snst-lab/mlp.js#readme"
+}

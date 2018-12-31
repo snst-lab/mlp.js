@@ -1,10 +1,12 @@
 #Ignore aws directory
 /aws/*
 
-#Ignore archive directory
-/archive/*
+#Ignore node modules
+/node_modules/*
+package-lock.json
 
-#Ignore working directory other than coding
+#Ignore the archive directory and the working directory other than coding
+/archive/*
 /resource/*
 
 #Ignore shell scripts to deploy repository
