@@ -7,9 +7,13 @@
         "DESKTOP": "screen.width / screen.height >= 13 / 16 "
     },
     "sanitize": true,
+<<<<<<< HEAD
     "cookie": false,
     "debug":{
         "console":true,
         "fpsMonitor":false
     }
+=======
+    "cookie": false
+>>>>>>> dd8454b414b9f56a309643a51347a53b10d5fd30
 }

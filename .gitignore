@@ -1,10 +1,14 @@
 #Ignore aws directory
+<<<<<<< HEAD
 /.aws/*
 
 #Ignore firebase directory
 /.firebase/*
 .firebaserc
 firebase.json
+=======
+/aws/*
+>>>>>>> dd8454b414b9f56a309643a51347a53b10d5fd30
 
 #Ignore node modules
 /node_modules/*
@@ -13,7 +17,10 @@ package-lock.json
 #Ignore the archive directory and the working directory other than coding
 /archive/*
 /resource/*
+<<<<<<< HEAD
 /history/*
+=======
+>>>>>>> dd8454b414b9f56a309643a51347a53b10d5fd30
 
 #Ignore shell scripts to deploy repository
 gitpush.bat
