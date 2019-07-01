@@ -1,0 +1,45 @@
+<flex-module id='currentTime'>
+    @css=
+        margin:auto;
+        font-family: 'arial black';
+        font-weight:bold;
+        font-size:3em;
+        color:rgb(70,70,70);
+        text-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+        animation: glitch 500ms linear forwards;
+    @keyframes glitch=
+        0% { 
+            text-shadow: 5px -2px blue;
+        }
+        10%{
+            text-shadow: 5px -2px red;
+        }
+        20% {
+            text-shadow: -5px -2px blue;
+        }
+        30%{
+            color:rgb(180,180,180);
+            text-shadow: none;
+        }
+        40% {
+            color:rgb(0,0,0);
+        }
+        50%{
+            text-shadow: -5px 2px red;
+        }
+        60%{
+            text-shadow: -5px 2px blue;
+        }
+        70%{
+            text-shadow: 5px 2px red;
+        }
+        80%{
+            color:rgb(180,180,180);
+            text-shadow: none;
+        }
+        90%{
+            color:rgba(0,0,0,1.0);
+            text-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+        }
+</flex-module>
+    

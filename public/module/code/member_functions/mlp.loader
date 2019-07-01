@@ -1,0 +1,9 @@
+mlp.loader = function (preloaderId) {
+    const doms = document.querySelectorAll('pre-loader');
+    Object.keys(doms).forEach(function (index) {
+        const loader = doms[index];
+        if (loader.getAttribute('id') !== null && loader.getAttribute('id') === preloaderId) {
+            preLoader.reload(loader);
+        }
+    });
+}

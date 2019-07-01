@@ -1,0 +1,20 @@
+#Ignore aws directory
+/.aws/*
+
+#Ignore firebase directory
+/.firebase/*
+.firebaserc
+firebase.json
+
+#Ignore node modules
+/node_modules/*
+package-lock.json
+
+#Ignore the archive directory and the working directory other than coding
+/archive/*
+/resource/*
+/history/*
+
+#Ignore shell scripts to deploy repository
+gitpush.bat
+gitfix.bat

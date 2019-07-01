@@ -1,0 +1,10 @@
+{
+    "dom":"div,span,p,h1,h2,h3,h4,h5,h6,form,table,ul,ol,dl,input,select,img,svg,i",
+    "event":"click,focus,blur,change,mouseenter,mouseleave,touchstart,touchend,keyup,scroll",
+    "screen":{
+        "MOBILE": "screen.width / screen.height <= 11 / 16",
+        "TABLET": "screen.width / screen.height > 11 / 16 &&  screen.width / screen.height < 13 / 16",
+        "DESKTOP": "screen.width / screen.height >= 13 / 16 "
+    },
+    "loading":"loading.html"
+}

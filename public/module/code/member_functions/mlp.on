@@ -1,0 +1,5 @@
+mlp.on = function (triggerEvent) {
+    const event = document.createEvent('HTMLEvents');
+    event.initEvent(triggerEvent, true, false);
+    document.dispatchEvent(event);
+}
