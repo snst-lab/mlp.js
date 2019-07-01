@@ -1,10 +1,6 @@
 /*!
  * mlp.js
-<<<<<<< HEAD
  * This is an HTML parser that extends HTML syntax and streamline your Front-end developments.
-=======
- * This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.
->>>>>>> dd8454b414b9f56a309643a51347a53b10d5fd30
  *
  * Copyright (c) 2018 TANUSUKE
  * Released under the LGPL license.

@@ -4,11 +4,11 @@ mlp.js
 ====
 This is an HTML parser that extends HTML syntax and makes your Front-end web developments more efficient.  
  
-<a href="http://ec2-3-16-214-161.us-east-2.compute.amazonaws.com/"><img src="https://snst-lab.github.io/mlp.js/public/img/melonpan.gif" width="15%"></a>
+<a href="https://mlp-js.firebaseapp.com/"><img src="https://snst-lab.github.io/mlp.js/public/img/melonpan.gif" width="15%"></a>
 
 ## Usage
 Demo and detailed usage are introduced on the demo site.  
-Visit [DEMO SITE (http://ec2-3-16-214-161.us-east-2.compute.amazonaws.com/)](http://ec2-3-16-214-161.us-east-2.compute.amazonaws.com/) 
+Visit [DEMO SITE (https://mlp-js.firebaseapp.com/)](https://mlp-js.firebaseapp.com/) 
  
 
 ## Install
