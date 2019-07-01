@@ -50,7 +50,7 @@ var mlp = mlp || {};
 				return document.querySelectorAll(cssSelector);
 			};
 
-			mlp.ajax = function(option,callback) {
+			mlp.ajax = function(option) {
 				const xhr = new XMLHttpRequest();
 				if(option.type==='GET'){
 					return new Promise(function(resolve,reject){
@@ -60,7 +60,7 @@ var mlp = mlp || {};
 								resolve(this);
 							else 
 								reject(this);
-						}
+						};
 						xhr.send();
 					});
 				}
@@ -341,7 +341,7 @@ var mlp = mlp || {};
 			_mlp.config.debug = {
 				console:true,
 				fpsMonitor:false
-			}
+			};
 			_mlp.Setting.init();
 		}
 		static init() {
@@ -369,9 +369,9 @@ var mlp = mlp || {};
 					_mlp.config.eventList = setting['event'].split(',');
 				}
 			})
-			.catch(function(err){
-				console.log(err);
-			});
+				.catch(function(err){
+					console.log(err);
+				});
 		}
 	};
 
@@ -388,7 +388,6 @@ var mlp = mlp || {};
 				};
 			}
 			if (typeof HTMLFormElement.prototype.submit !== 'undefined') {
-				const Submit = HTMLFormElement.prototype.submit;
 				HTMLFormElement.prototype.submit = function(){
 					if(_mlp.config.sanitize){
 						Object.values(this.elements).forEach(function(e){
@@ -462,7 +461,7 @@ var mlp = mlp || {};
 					importFile.expand(self, xhr);
 				else 
 					console.log(self.textContent + ' is not found.');
-			}
+			};
 			xhr.onerror = function () {
 				console.log('Failed to import ' + self.textContent);
 			};
@@ -537,7 +536,7 @@ var mlp = mlp || {};
 					} else {
 						console.log(source + ' is not found.');
 					}
-				}
+				};
 				xhr.send(null);
 			}
 		}
@@ -967,7 +966,6 @@ var mlp = mlp || {};
 		}
 
 		static setCSS(self, mod, className) {
-			const styleTag = document.getElementById('_mlp-style-master');
 
 			Object.keys(mod).forEach(function(key) {
 				if (key === 'css') {
@@ -1371,7 +1369,7 @@ var mlp = mlp || {};
 			
 			let getTime = function() {
 				return ( now && now.call( performance ) ) || ( new Date().getTime() );
-			}
+			};
 			
 			let prevTime = getTime();
 			let frame = 0;
@@ -1387,11 +1385,11 @@ var mlp = mlp || {};
 				requestAnimationFrame( loop );
 			})();
 		}
-	}
+	};
 
 
 	_mlp.init = function () {
-		window.performance.mark(`mlp:start`);
+		window.performance.mark('mlp:start');
 
 		return new Promise(function (resolve) {
 			new _mlp.defineMethods();
@@ -1418,10 +1416,10 @@ var mlp = mlp || {};
 			'mlp:start',
 			'mlp:end'
 		);
-		window.performance.getEntriesByName('mlp').forEach((entry,i) => {
+		window.performance.getEntriesByName('mlp').forEach(entry => {
 			console.log(`Contents loaded in ${entry.duration}ms`);
 		});
 		if(_mlp.config.debug.fpsMonitor) new _mlp.fpsMonitor();
 		mlp.on('load');
-	 });
-})(); 
+	});
+})();
