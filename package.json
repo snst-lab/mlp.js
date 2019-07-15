@@ -12,7 +12,11 @@
   "eslintIgnore": [],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint src/mlp.js --fix"
+    "eslint": "eslint src/mlp.js --fix",
+    "commit": "git add -A && git commit",
+    "cancel": "git reset --soft HEAD^",
+    "push:github": "git remote rm origin && git remote add origin git@github.com:snst-lab/mlp.js.git && git push origin master",
+    "pull:github": "git pull git@github.com:snst-lab/mlp.js.git master --allow-unrelated-histories"
   },
   "repository": {
     "type": "git",
@@ -25,6 +29,12 @@
   },
   "homepage": "https://github.com/snst-lab/mlp.js#readme",
   "devDependencies": {
-    "eslint": "^5.11.1"
+    "@babel/core": "",
+    "@babel/preset-env": "",
+    "babel-loader": "",
+    "core-js": "^3.1.4",
+    "eslint": "^5.11.1",
+    "webpack": "4.17.1",
+    "webpack-cli": ""
   }
 }
