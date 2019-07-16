@@ -1,7 +1,7 @@
 module.exports = [
 	{
 		mode: process.env.NODE_ENV || 'production', //'dvelopment', 
-		devtool: 'inline-source-map',
+		// devtool: 'inline-source-map',
 		entry: {
 			'mlp.min': './src/mlp.js'
 		},

@@ -14,7 +14,7 @@ Visit [DEMO SITE (https://mlp-js.firebaseapp.com/)](https://mlp-js.firebaseapp.c
 ## Install
 ### CDN
 ```html
-<script type="text/javascript" src="https://raw.githack.com/snst-lab/mlp.js/master/public/dist/mlp.min.js"></script>
+<script type="text/javascript" src="https://raw.githack.com/snst-lab/mlp.js/master/public/dist/mlp.js"></script>
 ```
  
 
